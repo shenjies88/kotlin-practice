@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shenjies88.practice.kotlin_practice_backend.mapper.UserMapper">
+
+    <select id="getByAccount" resultType="com.shenjies88.practice.kotlin_practice_backend.entity.UserDO">
+        select *
+        from user
+        where account = #{account}
+    </select>
+
+    <insert id="insert">
+        insert into user (account,pwd,nickname)
+        values (#{body.account},#{body.pwd},#{body.nickname})
+    </insert>
+</mapper>

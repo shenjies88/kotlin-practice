@@ -1,0 +1,1 @@
+create schema kotlin_db;

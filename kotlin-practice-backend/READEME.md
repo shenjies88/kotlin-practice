@@ -2,7 +2,7 @@
 
 ## 环境
 
-- Kotlin `1.3.72`
+- Kotlin `1.4.0`
 - Spring Boot `2.3.3.RELEASE`
 
 ## 技术栈
@@ -11,4 +11,4 @@
 - Spring Boot全家桶
 - MyBatis
 - H2
-- Lombok
+- Swagger
