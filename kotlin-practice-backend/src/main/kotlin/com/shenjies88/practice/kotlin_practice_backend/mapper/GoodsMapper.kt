@@ -9,5 +9,9 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 interface GoodsMapper {
+
+    /**
+     * 插入实体
+     */
     fun insert(@Param("name") name: String?)
 }

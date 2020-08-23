@@ -1,5 +1,6 @@
 package com.shenjies88.practice.kotlin_practice_backend.manager
 
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppLoginRespVo
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -10,9 +11,15 @@ import java.util.*
 @Component
 class MyCacheManager {
 
-    private val map: HashMap<String, Any> = HashMap()
+    private val appTokenMap: HashMap<String, AppLoginRespVo> = HashMap()
+    private val appLiveTokenMap: HashMap<Int?, String> = HashMap()
 
-    fun setToken(token: String, any: Any) = map.put(token, any)
+    fun setAppToken(token: String, any: AppLoginRespVo) = appTokenMap.put(token, any)
 
-    fun getByToken(token: String): Any? = map[token]
+    fun setAppLiveToken(id: Int?, token: String) = appLiveTokenMap.put(id, token)
+
+    fun getByAppToken(token: String): AppLoginRespVo? = appTokenMap[token]
+
+    fun getByAppIdToken(id: Int?): String? = appLiveTokenMap[id]
+
 }

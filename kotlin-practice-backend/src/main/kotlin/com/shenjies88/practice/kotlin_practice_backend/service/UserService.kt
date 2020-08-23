@@ -34,7 +34,8 @@ class UserService @Autowired constructor(private val userMapper: UserMapper, pri
         Assert.isTrue(param.pwd == user!!.pwd, "账号密码不匹配")
         val token = UUID.randomUUID().toString()
         val result = AppLoginRespVo(user, token)
-        myCacheManager.setToken(token, result)
+        myCacheManager.setAppToken(token, result)
+        myCacheManager.setAppLiveToken(user.id, token)
         return result
     }
 }
