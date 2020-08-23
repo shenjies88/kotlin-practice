@@ -1,15 +1,17 @@
 package com.shenjies88.practice.kotlin_practice_backend.controller.app
 
+import com.shenjies88.practice.kotlin_practice_backend.entity.GoodsDO
 import com.shenjies88.practice.kotlin_practice_backend.service.GoodsService
+import com.shenjies88.practice.kotlin_practice_backend.utils.AppUserMemoryUtils
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo.Companion.successReturn
+import com.shenjies88.practice.kotlin_practice_backend.vo.PageVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.goods.AppMyGoodsPageRespVo
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.util.Assert
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 /**
  * @author shenjies88
@@ -27,7 +29,14 @@ class AppGoodsController @Autowired constructor(private val goodsService: GoodsS
         goodsService.insert(name)
         return successReturn()
     }
+
+    //查看
+    @ApiOperation("查看我的商品列表")
+    @PostMapping
+    fun page(@RequestBody param: AppMyGoodsPageRespVo): HttpResultVo<PageVo<GoodsDO>> {
+        param.userId = AppUserMemoryUtils.getAppUser().id
+        return successReturn(goodsService.page(param))
+    }
     //删除
     //修改
-    //查看
 }

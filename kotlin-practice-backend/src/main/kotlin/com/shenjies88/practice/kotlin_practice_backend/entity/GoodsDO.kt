@@ -11,5 +11,7 @@ import io.swagger.annotations.ApiModelProperty
 class GoodsDO(
         @ApiModelProperty("主键")
         var id: Int?,
+        @ApiModelProperty("用户id")
+        var userId: Int?,
         @ApiModelProperty("产品名称")
         var name: String?)

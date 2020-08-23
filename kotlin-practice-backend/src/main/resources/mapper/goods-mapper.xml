@@ -3,7 +3,29 @@
 <mapper namespace="com.shenjies88.practice.kotlin_practice_backend.mapper.GoodsMapper">
 
     <insert id="insert">
-        insert into goods (name)
-        values (#{name})
+        insert into goods (user_id,name)
+        values (#{userId},#{name})
     </insert>
+
+    <sql id="pageSql">
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" resultType="Int">
+        select count (1)
+        from goods
+        <include refid="pageSql"/>
+    </select>
+
+    <select id="appPage" resultType="com.shenjies88.practice.kotlin_practice_backend.entity.GoodsDO">
+        select id,name
+        from goods
+        <include refid="pageSql"/>
+        order by id desc
+        limit #{offset} , #{size}
+    </select>
 </mapper>

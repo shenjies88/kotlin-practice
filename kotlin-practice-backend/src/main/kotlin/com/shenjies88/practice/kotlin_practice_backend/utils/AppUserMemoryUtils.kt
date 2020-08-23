@@ -11,6 +11,6 @@ class AppUserMemoryUtils {
     companion object {
         private val userHold: ThreadLocal<AppLoginRespVo> = ThreadLocal()
         fun setAppUser(user: AppLoginRespVo) = userHold.set(user)
-        fun getAppUser(): AppLoginRespVo? = userHold.get()
+        fun getAppUser(): AppLoginRespVo = userHold.get()
     }
 }
