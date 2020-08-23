@@ -1,6 +1,6 @@
 package com.shenjies88.practice.kotlin_practice_backend.manager
 
-import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppLoginRespVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.resp.AppLoginRespVo
 import org.springframework.stereotype.Component
 import java.util.*
 

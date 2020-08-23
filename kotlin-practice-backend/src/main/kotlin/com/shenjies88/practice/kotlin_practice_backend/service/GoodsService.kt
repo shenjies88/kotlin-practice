@@ -4,12 +4,14 @@ import com.shenjies88.practice.kotlin_practice_backend.entity.GoodsDO
 import com.shenjies88.practice.kotlin_practice_backend.mapper.GoodsMapper
 import com.shenjies88.practice.kotlin_practice_backend.utils.AppUserMemoryUtils
 import com.shenjies88.practice.kotlin_practice_backend.vo.PageVo
-import com.shenjies88.practice.kotlin_practice_backend.vo.goods.AppMyGoodsPageRespVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.goods.GoodsCount
+import com.shenjies88.practice.kotlin_practice_backend.vo.goods.req.AppMyGoodsPageReqVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.goods.req.AppMyGoodsUpdateReqVo
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.Assert
 
 /**
  * @author shenjies88
@@ -23,7 +25,7 @@ class GoodsService @Autowired constructor(private val goodsMapper: GoodsMapper) 
         goodsMapper.insert(name, AppUserMemoryUtils.getAppUser().id)
     }
 
-    fun page(param: AppMyGoodsPageRespVo): PageVo<GoodsDO> {
+    fun page(param: AppMyGoodsPageReqVo): PageVo<GoodsDO> {
         val goodsCount = GoodsCount()
         BeanUtils.copyProperties(param, goodsCount)
         val total = goodsMapper.count(goodsCount)
@@ -37,4 +39,16 @@ class GoodsService @Autowired constructor(private val goodsMapper: GoodsMapper) 
         return result
     }
 
+    @Transactional(rollbackFor = [Exception::class])
+    fun delete(idList: Array<Int>) {
+        goodsMapper.delete(idList)
+    }
+
+    @Transactional(rollbackFor = [Exception::class])
+    fun update(param: AppMyGoodsUpdateReqVo) {
+        val goods = goodsMapper.get(param.id)
+        Assert.notNull(goods, "该商品不存在")
+        goods!!.name = param.name
+        goodsMapper.updateSelect(goods)
+    }
 }

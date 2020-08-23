@@ -3,9 +3,9 @@ package com.shenjies88.practice.kotlin_practice_backend.service
 import com.shenjies88.practice.kotlin_practice_backend.entity.UserDO
 import com.shenjies88.practice.kotlin_practice_backend.manager.MyCacheManager
 import com.shenjies88.practice.kotlin_practice_backend.mapper.UserMapper
-import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppLoginReqVo
-import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppLoginRespVo
-import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppRegisteredReqVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AppLoginReqVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AppRegisteredReqVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.resp.AppLoginRespVo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

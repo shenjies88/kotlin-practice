@@ -1,8 +1,8 @@
 package com.shenjies88.practice.kotlin_practice_backend.mapper
 
 import com.shenjies88.practice.kotlin_practice_backend.entity.GoodsDO
-import com.shenjies88.practice.kotlin_practice_backend.vo.goods.AppMyGoodsPageRespVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.goods.GoodsCount
+import com.shenjies88.practice.kotlin_practice_backend.vo.goods.req.AppMyGoodsPageReqVo
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
 
@@ -27,5 +27,20 @@ interface GoodsMapper {
      * App
      * 实体列表
      */
-    fun appPage(param: AppMyGoodsPageRespVo): Array<GoodsDO>
+    fun appPage(param: AppMyGoodsPageReqVo): Array<GoodsDO>
+
+    /**
+     * 删除实体
+     */
+    fun delete(@Param("list") idList: Array<Int>)
+
+    /**
+     * 获取实体
+     */
+    fun get(id: Int?): GoodsDO?
+
+    /**
+     * 更新非空字段
+     */
+    fun updateSelect(goods: GoodsDO)
 }

@@ -1,4 +1,4 @@
-package com.shenjies88.practice.kotlin_practice_backend.vo.user
+package com.shenjies88.practice.kotlin_practice_backend.vo.user.req
 
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty

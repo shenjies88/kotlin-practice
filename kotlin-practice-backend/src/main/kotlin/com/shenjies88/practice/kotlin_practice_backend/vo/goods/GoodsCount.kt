@@ -5,5 +5,5 @@ package com.shenjies88.practice.kotlin_practice_backend.vo.goods
  * @since 2020/8/23-8:01 PM
  */
 class GoodsCount {
-    val userId: Int? = null
+    var userId: Int? = null
 }

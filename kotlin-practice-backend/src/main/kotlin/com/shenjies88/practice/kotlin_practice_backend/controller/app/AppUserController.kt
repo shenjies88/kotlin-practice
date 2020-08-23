@@ -3,9 +3,9 @@ package com.shenjies88.practice.kotlin_practice_backend.controller.app
 import com.shenjies88.practice.kotlin_practice_backend.service.UserService
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo.Companion.successReturn
-import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppLoginReqVo
-import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppLoginRespVo
-import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppRegisteredReqVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AppLoginReqVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AppRegisteredReqVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.resp.AppLoginRespVo
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
