@@ -19,9 +19,9 @@ class WebConfig @Autowired constructor(
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(appInterceptor)
                 .addPathPatterns("/app/**")
-                .excludePathPatterns("/app/user/registered", "/app/user/login")
+                .excludePathPatterns("/app/authentication/*")
         registry.addInterceptor(adminInterceptor)
                 .addPathPatterns("/admin/**")
-                .excludePathPatterns("/admin/user/login")
+                .excludePathPatterns("/admin/authentication/*")
     }
 }

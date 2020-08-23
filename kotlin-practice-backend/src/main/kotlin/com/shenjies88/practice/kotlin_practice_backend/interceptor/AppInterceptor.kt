@@ -20,6 +20,7 @@ class AppInterceptor @Autowired constructor(private val myCacheManager: MyCacheM
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val token = request.getHeader(APP_TOKEN)
+        Assert.hasText(token, "请携带令牌")
         val user = myCacheManager.getByAppToken(token)
         Assert.notNull(user, "请先进行登陆")
         val liveToken = myCacheManager.getByAppIdToken(user!!.id)

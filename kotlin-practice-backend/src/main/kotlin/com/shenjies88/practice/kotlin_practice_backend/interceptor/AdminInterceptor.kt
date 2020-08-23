@@ -20,6 +20,7 @@ class AdminInterceptor @Autowired constructor(private val myCacheManager: MyCach
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val token = request.getHeader(ADMIN_TOKEN)
+        Assert.hasText(token, "请携带令牌")
         val user = myCacheManager.getByAdminToken(token)
         Assert.notNull(user, "请先进行登陆")
         val liveToken = myCacheManager.getByAdminIdToken(user!!.id)

@@ -2,8 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shenjies88.practice.kotlin_practice_backend.mapper.AdminUserMapper">
 
-    <select id="getByAccount" resultType="com.shenjies88.practice.kotlin_practice_backend.entity.AdminUserDO">
-        select *
+    <resultMap id="baseResultMap" type="com.shenjies88.practice.kotlin_practice_backend.entity.AdminUserDO">
+        <id property="id" jdbcType="INTEGER" column="id"/>
+        <result property="account" jdbcType="VARCHAR" column="account"/>
+        <result property="pwd" jdbcType="VARCHAR" column="pwd"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id,account,pwd
+    </sql>
+
+    <select id="getByAccount" resultMap="baseResultMap">
+        select
+        <include refid="baseColumn"/>
         from admin_user
         where account = #{account}
     </select>

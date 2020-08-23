@@ -4,11 +4,15 @@ import com.shenjies88.practice.kotlin_practice_backend.entity.UserDO
 import com.shenjies88.practice.kotlin_practice_backend.manager.MyCacheManager
 import com.shenjies88.practice.kotlin_practice_backend.mapper.AdminUserMapper
 import com.shenjies88.practice.kotlin_practice_backend.mapper.UserMapper
+import com.shenjies88.practice.kotlin_practice_backend.vo.PageVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.admin_user.req.AdminLoginReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.admin_user.resp.AdminLoginRespVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.UserCount
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AdminUserPageReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AppLoginReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AppRegisteredReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.user.resp.AppLoginRespVo
+import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -55,6 +59,20 @@ class UserService @Autowired constructor(
         val result = AdminLoginRespVo(user, token)
         myCacheManager.setAdminToken(token, result)
         myCacheManager.setAdminLiveToken(user.id, token)
+        return result
+    }
+
+    fun adminPage(param: AdminUserPageReqVo): PageVo<UserDO> {
+        val userCount = UserCount()
+        BeanUtils.copyProperties(param, userCount)
+        val total = userMapper.count(userCount)
+        val result = PageVo<UserDO>()
+        if (total > 0) {
+            result.list = userMapper.adminPage(param)
+        } else {
+            result.list = emptyArray()
+        }
+        result.total = total
         return result
     }
 }

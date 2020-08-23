@@ -31,7 +31,7 @@ class AppGoodsController @Autowired constructor(private val goodsService: GoodsS
         return successReturn()
     }
 
-    @ApiOperation("查看我的商品列表")
+    @ApiOperation("我的商品列表分页")
     @PostMapping("/page")
     fun page(@RequestBody param: AppMyGoodsPageReqVo): HttpResultVo<PageVo<GoodsDO>> {
         param.userId = AppUserMemoryUtils.getAppUser().id

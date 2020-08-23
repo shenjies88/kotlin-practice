@@ -1,6 +1,8 @@
 package com.shenjies88.practice.kotlin_practice_backend.mapper
 
 import com.shenjies88.practice.kotlin_practice_backend.entity.UserDO
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.UserCount
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AdminUserPageReqVo
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
 
@@ -20,4 +22,15 @@ interface UserMapper {
      * 插入实体
      */
     fun insert(@Param("body") userDO: UserDO)
+
+    /**
+     * 计数
+     */
+    fun count(userCount: UserCount): Int
+
+    /**
+     * Admin
+     * 实体列表
+     */
+    fun adminPage(param: AdminUserPageReqVo): Array<UserDO>
 }

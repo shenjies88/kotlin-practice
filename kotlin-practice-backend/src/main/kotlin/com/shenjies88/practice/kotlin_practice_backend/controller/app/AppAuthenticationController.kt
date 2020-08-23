@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController
  * @author shenjies88
  * @since 2020/8/23-4:00 PM
  */
-@Api(tags = ["用户接口"])
-@RequestMapping("/app/user")
+@Api(tags = ["鉴权接口"])
+@RequestMapping("/app/authentication")
 @RestController
-class AppUserController @Autowired constructor(private val userService: UserService) {
+class AppAuthenticationController @Autowired constructor(private val userService: UserService) {
 
     @ApiOperation("注册")
     @PostMapping("/registered")
