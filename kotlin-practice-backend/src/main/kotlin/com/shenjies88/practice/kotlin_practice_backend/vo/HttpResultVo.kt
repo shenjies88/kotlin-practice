@@ -23,6 +23,5 @@ class HttpResultVo<T>(
         fun successReturn() = HttpResultVo(true, 0, null, null)
         fun failure(errorMsg: String?) = HttpResultVo(false, 1, null, errorMsg)
         fun failure(code: Int, errorMsg: String) = HttpResultVo(false, code, null, errorMsg)
-        fun failure() = HttpResultVo(false, 1, null, "failure")
     }
 }
