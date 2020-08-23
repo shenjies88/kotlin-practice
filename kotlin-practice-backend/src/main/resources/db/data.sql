@@ -18,6 +18,15 @@ values ('18178324804', '123456', 'shenjies88'),
        ('1817832480b', '123456', 'shenjies0b'),
        ('1817832480c', '123456', 'shenjies0c');
 
+create table admin_user
+(
+    id      int unsigned auto_increment primary key comment '主键',
+    account varchar(20) not null comment '账号',
+    pwd     varchar(20) not null comment '密码'
+) comment '管理员';
+insert into admin_user (account, pwd)
+values ('shenjies88', '123456');
+
 create table goods
 (
     id      int unsigned auto_increment primary key comment '主键',
