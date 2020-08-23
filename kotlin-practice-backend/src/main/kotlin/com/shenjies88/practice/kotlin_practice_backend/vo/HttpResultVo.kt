@@ -19,7 +19,6 @@ class HttpResultVo<T>(
         val errorMsg: String?) {
 
     companion object {
-        @JvmStatic
         fun <T> successReturn(data: T): HttpResultVo<T> = HttpResultVo<T>(true, 0, data, null)
         fun successReturn() = HttpResultVo(true, 0, null, null)
         fun failure(errorMsg: String?) = HttpResultVo(false, 1, null, errorMsg)
