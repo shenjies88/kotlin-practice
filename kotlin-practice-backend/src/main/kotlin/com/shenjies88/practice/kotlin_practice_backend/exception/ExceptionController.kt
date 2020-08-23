@@ -1,7 +1,7 @@
 package com.shenjies88.practice.kotlin_practice_backend.exception
 
 import com.shenjies88.practice.kotlin_practice_backend.common.MyLog
-import com.shenjies88.practice.kotlin_practice_backend.constant.ApplicationCanstant
+import com.shenjies88.practice.kotlin_practice_backend.constant.ApplicationConstant
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo
 import org.springframework.http.HttpStatus
 import org.springframework.util.CollectionUtils
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
  * @since 2020/8/23-3:21 PM
  */
 @ResponseStatus(HttpStatus.OK)
-@RestControllerAdvice(ApplicationCanstant.BASE_PACKAGE)
+@RestControllerAdvice(ApplicationConstant.BASE_PACKAGE)
 class ExceptionController {
 
     companion object : MyLog
@@ -22,7 +22,7 @@ class ExceptionController {
     @ExceptionHandler(IllegalArgumentException::class)
     fun illegalArgumentExceptionHandler(e: IllegalArgumentException): HttpResultVo<Nothing> {
         var errorMessage: String? = "服务器繁忙"
-        if (!CollectionUtils.isEmpty(e.stackTrace.filter { it.className.startsWith(ApplicationCanstant.BASE_PACKAGE) })) {
+        if (!CollectionUtils.isEmpty(e.stackTrace.filter { it.className.startsWith(ApplicationConstant.BASE_PACKAGE) })) {
             errorMessage = e.message
         }
         log().error("业务异常", e)
