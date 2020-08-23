@@ -7,3 +7,5 @@ create table user
     nickname varchar(10) not null comment '昵称',
     icon     varchar(50) null default '' comment '头像'
 ) comment '用户';
+insert into user (account, pwd, nickname)
+values ('18178324804', '123456', 'shenjies88');

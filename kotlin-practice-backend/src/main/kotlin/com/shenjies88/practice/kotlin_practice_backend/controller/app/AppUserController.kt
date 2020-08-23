@@ -1,8 +1,10 @@
 package com.shenjies88.practice.kotlin_practice_backend.controller.app
 
+import com.shenjies88.practice.kotlin_practice_backend.entity.UserDO
 import com.shenjies88.practice.kotlin_practice_backend.service.UserService
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo.Companion.successReturn
+import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppLoginReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.user.AppRegisteredReqVo
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -29,7 +31,6 @@ class AppUserController {
         this.userService = userService
     }
 
-
     @ApiOperation("注册")
     @PostMapping("/registered")
     fun registered(@RequestBody param: AppRegisteredReqVo): HttpResultVo<*>? {
@@ -38,5 +39,13 @@ class AppUserController {
         Assert.hasText(param.nickname, "昵称不能为空")
         userService.registered(param)
         return successReturn()
+    }
+
+    @ApiOperation("登陆")
+    @PostMapping("/login")
+    fun login(@RequestBody param: AppLoginReqVo): HttpResultVo<UserDO> {
+        Assert.hasText(param.account, "账号不能为空")
+        Assert.hasText(param.pwd, "密码不能为空")
+        return successReturn(userService.login(param))
     }
 }

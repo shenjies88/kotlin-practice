@@ -14,7 +14,7 @@ interface UserMapper {
     /**
      * 根据账号获取用户
      */
-    fun getByAccount(@Param("account") account: String?): UserDO
+    fun getByAccount(@Param("account") account: String?): UserDO?
 
     /**
      * 插入实体
