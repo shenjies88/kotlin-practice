@@ -8,4 +8,12 @@ create table user
     icon     varchar(50) null default '' comment '头像'
 ) comment '用户';
 insert into user (account, pwd, nickname)
-values ('18178324804', '123456', 'shenjies88');
+values ('18178324804', '123456', 'shenjies88'),
+       ('18178324805', '123456', 'shenjies05'),
+       ('18178324806', '123456', 'shenjies06'),
+       ('18178324807', '123456', 'shenjies07'),
+       ('18178324808', '123456', 'shenjies08'),
+       ('18178324809', '123456', 'shenjies09'),
+       ('1817832480a', '123456', 'shenjies0a'),
+       ('1817832480b', '123456', 'shenjies0b'),
+       ('1817832480c', '123456', 'shenjies0c');
