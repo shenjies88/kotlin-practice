@@ -24,7 +24,7 @@ class AppInterceptor @Autowired constructor(private val myCacheManager: MyCacheM
         val user = myCacheManager.getByAppToken(token)
         Assert.notNull(user, "请先进行登陆")
         val liveToken = myCacheManager.getByAppIdToken(user!!.id)
-        Assert.isTrue(liveToken != null && liveToken == token, "Token已失效，请重新登陆")
+        Assert.isTrue(liveToken != null && liveToken == token, "令牌已失效，请重新登陆")
         AppUserMemoryUtils.setAppUser(user)
         return true
     }

@@ -3,9 +3,9 @@
 <mapper namespace="com.shenjies88.practice.kotlin_practice_backend.mapper.GoodsMapper">
 
     <resultMap id="baseResultMap" type="com.shenjies88.practice.kotlin_practice_backend.entity.GoodsDO">
-        <id property="id" column="id"/>
-        <result property="userId" column="user_id"/>
-        <result property="name" column="name"/>
+        <id property="id" jdbcType="INTEGER" column="id"/>
+        <result property="userId" jdbcType="INTEGER" column="user_id"/>
+        <result property="name" jdbcType="VARCHAR" column="name"/>
     </resultMap>
 
     <sql id="baseColumn">
