@@ -11,12 +11,16 @@
     </resultMap>
 
     <sql id="baseColumn">
+        id,account,nickname,icon
+    </sql>
+
+    <sql id="pwdBaseColumn">
         id,account,pwd,nickname,icon
     </sql>
 
     <select id="getByAccount" resultMap="baseResultMap">
         select
-        <include refid="baseColumn"/>
+        <include refid="pwdBaseColumn"/>
         from user
         where account = #{account}
     </select>

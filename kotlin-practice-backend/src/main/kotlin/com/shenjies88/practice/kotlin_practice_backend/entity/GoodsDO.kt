@@ -14,4 +14,6 @@ data class GoodsDO(
         @ApiModelProperty("用户id")
         var userId: Int?,
         @ApiModelProperty("产品名称")
-        var name: String?)
+        var name: String?) {
+        constructor() : this(null, null, null)
+}

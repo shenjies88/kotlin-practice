@@ -9,12 +9,16 @@
     </resultMap>
 
     <sql id="baseColumn">
+        id,account
+    </sql>
+
+    <sql id="pwdBaseColumn">
         id,account,pwd
     </sql>
 
     <select id="getByAccount" resultMap="baseResultMap">
         select
-        <include refid="baseColumn"/>
+        <include refid="pwdBaseColumn"/>
         from admin_user
         where account = #{account}
     </select>

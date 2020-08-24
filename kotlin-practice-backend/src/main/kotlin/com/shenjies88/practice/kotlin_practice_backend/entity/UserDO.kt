@@ -18,4 +18,6 @@ data class UserDO(
         @ApiModelProperty("昵称")
         var nickname: String?,
         @ApiModelProperty("头像")
-        var icon: String?)
+        var icon: String?) {
+        constructor() : this(null, null, null, null, null)
+}
