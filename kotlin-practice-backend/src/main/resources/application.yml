@@ -19,6 +19,7 @@ logging:
   level:
     root: info
     com.shenjies88.practice.kotlin_practice_backend: debug
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true

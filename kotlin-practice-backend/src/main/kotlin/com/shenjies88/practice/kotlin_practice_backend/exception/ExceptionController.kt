@@ -1,6 +1,6 @@
 package com.shenjies88.practice.kotlin_practice_backend.exception
 
-import com.shenjies88.practice.kotlin_practice_backend.common.MyLog
+import com.shenjies88.practice.kotlin_practice_backend.common.MyLogger
 import com.shenjies88.practice.kotlin_practice_backend.constant.ApplicationConstant
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo
 import org.springframework.http.HttpStatus
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice(ApplicationConstant.BASE_PACKAGE)
 class ExceptionController {
 
-    companion object : MyLog
+    companion object : MyLogger
 
     @ExceptionHandler(IllegalArgumentException::class)
     fun illegalArgumentExceptionHandler(e: IllegalArgumentException): HttpResultVo<Nothing> {
