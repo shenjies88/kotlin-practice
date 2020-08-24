@@ -21,17 +21,11 @@
                 app:navigationIcon="@drawable/ic_menu_24dp"
                 style="@style/Widget.MaterialComponents.Toolbar.Surface" />
         </com.google.android.material.appbar.AppBarLayout>
-        <!-- Note: A RecyclerView can also be used -->
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <!-- Scrollable content -->
-        </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start|left" />
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nv_header" />
 </androidx.drawerlayout.widget.DrawerLayout>
