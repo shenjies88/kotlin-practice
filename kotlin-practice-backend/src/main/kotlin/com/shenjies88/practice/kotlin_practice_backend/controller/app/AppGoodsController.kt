@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*
  * @author shenjies88
  * @since 2020/8/23-4:00 PM
  */
-@Api(tags = ["产品接口"])
+@Api(tags = ["商品接口"])
 @RequestMapping("/app/goods")
 @RestController
 class AppGoodsController @Autowired constructor(private val goodsService: GoodsService) {

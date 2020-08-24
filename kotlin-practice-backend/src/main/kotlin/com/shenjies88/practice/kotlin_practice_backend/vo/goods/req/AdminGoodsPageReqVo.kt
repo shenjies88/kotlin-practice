@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty
  * @author shenjies88
  * @since 2020/8/23-7:53 PM
  */
-@ApiModel("我的商品列表分页请求")
-class AppMyGoodsPageReqVo(
-        @ApiModelProperty(hidden = true)
+@ApiModel("商品列表分页请求")
+class AdminGoodsPageReqVo(
+        @ApiModelProperty("用户id")
         var userId: Int?) : PageReqVo()

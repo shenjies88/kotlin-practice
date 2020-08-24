@@ -5,6 +5,7 @@ import com.shenjies88.practice.kotlin_practice_backend.mapper.GoodsMapper
 import com.shenjies88.practice.kotlin_practice_backend.utils.AppUserMemoryUtils
 import com.shenjies88.practice.kotlin_practice_backend.vo.PageVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.goods.GoodsCount
+import com.shenjies88.practice.kotlin_practice_backend.vo.goods.req.AdminGoodsPageReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.goods.req.AppMyGoodsPageReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.goods.req.AppMyGoodsUpdateReqVo
 import org.springframework.beans.BeanUtils
@@ -50,5 +51,21 @@ class GoodsService @Autowired constructor(private val goodsMapper: GoodsMapper) 
         Assert.notNull(goods, "该商品不存在")
         goods!!.name = param.name
         goodsMapper.updateSelect(goods)
+    }
+
+    /**----------Admin----------**/
+
+    fun adminPage(param: AdminGoodsPageReqVo): PageVo<GoodsDO> {
+        val goodsCount = GoodsCount()
+        BeanUtils.copyProperties(param, goodsCount)
+        val total = goodsMapper.count(goodsCount)
+        val result = PageVo<GoodsDO>()
+        if (total > 0) {
+            result.list = goodsMapper.adminPage(param)
+        } else {
+            result.list = emptyArray()
+        }
+        result.total = total
+        return result
     }
 }

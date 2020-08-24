@@ -2,6 +2,7 @@ package com.shenjies88.practice.kotlin_practice_backend.mapper
 
 import com.shenjies88.practice.kotlin_practice_backend.entity.GoodsDO
 import com.shenjies88.practice.kotlin_practice_backend.vo.goods.GoodsCount
+import com.shenjies88.practice.kotlin_practice_backend.vo.goods.req.AdminGoodsPageReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.goods.req.AppMyGoodsPageReqVo
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
@@ -24,8 +25,7 @@ interface GoodsMapper {
     fun count(param: GoodsCount): Int
 
     /**
-     * App
-     * 实体列表
+     * 实体列表分页
      */
     fun appPage(param: AppMyGoodsPageReqVo): Array<GoodsDO>
 
@@ -43,4 +43,8 @@ interface GoodsMapper {
      * 更新非空字段
      */
     fun updateSelect(goods: GoodsDO)
+
+    /**----------Admin----------**/
+
+    fun adminPage(param: AdminGoodsPageReqVo): Array<GoodsDO>
 }

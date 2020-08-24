@@ -64,4 +64,13 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="adminPage" resultMap="baseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from goods
+        <include refid="pageSql"/>
+        order by id desc
+        limit #{offset} , #{size}
+    </select>
 </mapper>

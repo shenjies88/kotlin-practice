@@ -1,6 +1,6 @@
 package com.shenjies88.practice.kotlin_practice_backend.controller.admin
 
-import com.shenjies88.practice.kotlin_practice_backend.service.UserService
+import com.shenjies88.practice.kotlin_practice_backend.service.AdminUserService
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo.Companion.successReturn
 import com.shenjies88.practice.kotlin_practice_backend.vo.admin_user.req.AdminLoginReqVo
@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RestController
 @Api(tags = ["鉴权接口"])
 @RequestMapping("/admin/authentication")
 @RestController
-class AdminAuthenticationController @Autowired constructor(private val userService: UserService) {
+class AdminAuthenticationController @Autowired constructor(private val adminUserService: AdminUserService) {
 
     @ApiOperation("登陆")
     @PostMapping("/login")
     fun login(@RequestBody param: AdminLoginReqVo): HttpResultVo<AdminLoginRespVo> {
         Assert.hasText(param.account, "账号不能为空")
         Assert.hasText(param.pwd, "密码不能为空")
-        return successReturn(userService.adminLogin(param))
+        return successReturn(adminUserService.login(param))
     }
 }

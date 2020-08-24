@@ -31,8 +31,8 @@ create table goods
 (
     id      int unsigned auto_increment primary key comment '主键',
     user_id int unsigned not null comment '用户id',
-    name    varchar(20)  not null comment '产品名称'
-) comment '产品';
+    name    varchar(20)  not null comment '商品名称'
+) comment '商品';
 insert into goods (user_id, name)
 values (1, '商品1号'),
        (1, '商品2号'),

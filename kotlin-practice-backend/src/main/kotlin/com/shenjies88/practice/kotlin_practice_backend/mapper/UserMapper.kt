@@ -28,9 +28,10 @@ interface UserMapper {
      */
     fun count(userCount: UserCount): Int
 
+    /**----------Admin----------**/
+
     /**
-     * Admin
-     * 实体列表
+     * 实体列表分页
      */
     fun adminPage(param: AdminUserPageReqVo): Array<UserDO>
 }
