@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class KotlinPracticeBackendApplication
 
 fun main(args: Array<String>) {
-	runApplication<KotlinPracticeBackendApplication>(*args)
+    runApplication<KotlinPracticeBackendApplication>(*args)
 }

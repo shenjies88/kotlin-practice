@@ -15,5 +15,5 @@ data class AdminUserDO(
         var account: String?,
         @ApiModelProperty("密码")
         var pwd: String?) {
-        constructor() : this(null, null, null)
+    constructor() : this(null, null, null)
 }
