@@ -23,15 +23,17 @@ class ExceptionController {
     fun illegalArgumentExceptionHandler(e: IllegalArgumentException): HttpResultVo<Nothing> {
         var errorMessage: String? = "服务器繁忙"
         if (!CollectionUtils.isEmpty(e.stackTrace.filter { it.className.startsWith(ApplicationConstant.BASE_PACKAGE) })) {
+            log().error("业务异常 {}", e.message)
             errorMessage = e.message
+        } else {
+            log().error("服务器异常", e)
         }
-        log().error("业务异常", e)
         return HttpResultVo.failure(errorMessage)
     }
 
     @ExceptionHandler(Exception::class)
     fun exceptionHandler(e: Exception): HttpResultVo<Nothing> {
-        log().error("通用错误", e)
+        log().error("通用异常", e)
         return HttpResultVo.failure("服务器繁忙")
     }
 }
