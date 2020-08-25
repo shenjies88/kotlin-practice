@@ -4,11 +4,12 @@ import android.app.Activity
 import android.os.Handler
 import android.os.Message
 import android.widget.Toast
+import java.lang.ref.WeakReference
 
 
-class MessageHandler(private val context: Activity) : Handler() {
+class ToastHandler(private val context: WeakReference<Activity>) : Handler() {
 
     override fun handleMessage(msg: Message) {
-        Toast.makeText(context,msg.obj as String,Toast.LENGTH_SHORT).show()
+        Toast.makeText(context.get(), msg.obj as String, Toast.LENGTH_SHORT).show()
     }
 }

@@ -6,23 +6,28 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlin_practice_app.R
 import com.example.kotlin_practice_app.callback.LoginCallBack
 import com.example.kotlin_practice_app.client.BackendClient
-import com.example.kotlin_practice_app.handler.MessageHandler
+import com.example.kotlin_practice_app.handler.ToastHandler
 import com.google.android.material.textfield.TextInputLayout
+import java.lang.ref.WeakReference
 
 class LoginActivity : AppCompatActivity() {
 
+    //Handler
+    private lateinit var toastHandler: ToastHandler
+
+    //控件
     private lateinit var btReg: Button
     private lateinit var btLogin: Button
     private lateinit var editAccount: TextInputLayout
     private lateinit var editPwd: TextInputLayout
     private lateinit var editNickname: TextInputLayout
-    private lateinit var messageHandler : MessageHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        messageHandler = MessageHandler(this)
+        toastHandler = ToastHandler(WeakReference(this))
+
         btReg = findViewById(R.id.bt_reg)
         btLogin = findViewById(R.id.bt_login)
         editAccount = findViewById(R.id.edit_account)
@@ -36,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         btLogin.setOnClickListener {
             val account = editAccount.editText!!.text.toString()
             val pwd = editPwd.editText!!.text.toString()
-            BackendClient.login(account, pwd, LoginCallBack(this,messageHandler))
+            BackendClient.login(account, pwd, LoginCallBack(this, toastHandler))
         }
     }
 }

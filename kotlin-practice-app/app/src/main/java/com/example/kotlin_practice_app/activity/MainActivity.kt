@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,13 +21,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var topAppBar: MaterialToolbar
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var nvHeaderIcon: ImageView
+    private lateinit var nvHeaderAccount: TextView
+    private lateinit var nvHeaderNickname: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //请求网络权限
-        when (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) ){
+        when (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)) {
             PackageManager.PERMISSION_GRANTED -> {
 
             }
@@ -46,6 +51,9 @@ class MainActivity : AppCompatActivity() {
 
         topAppBar = findViewById(R.id.top_app_bar)
         drawerLayout = findViewById(R.id.drawer_layout)
+        nvHeaderIcon = findViewById(R.id.nv_header_icon)
+        nvHeaderAccount = findViewById(R.id.nv_header_account)
+        nvHeaderNickname = findViewById(R.id.nv_header_nickname)
 
         topAppBar.setNavigationOnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -54,6 +62,11 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
+
+        val account = intent.extras!!.getString("account")
+        val nickname = intent.extras!!.getString("nickname")
+        nvHeaderAccount.text = account
+        nvHeaderNickname.text = nickname
     }
 
     override fun onRequestPermissionsResult(

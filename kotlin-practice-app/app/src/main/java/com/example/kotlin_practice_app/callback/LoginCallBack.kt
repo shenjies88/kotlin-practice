@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Message
 import android.util.Log
-import android.widget.Toast
 import com.example.kotlin_practice_app.activity.LoginActivity
 import com.example.kotlin_practice_app.activity.MainActivity
-import com.example.kotlin_practice_app.handler.MessageHandler
+import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.manager.TokenManager
 import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.AppLoginRespVo
@@ -18,17 +17,18 @@ import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
 
-class LoginCallBack(private val context: LoginActivity,private val messageHandler: MessageHandler) : Callback {
+class LoginCallBack(private val context: LoginActivity, private val toastHandler: ToastHandler) :
+    Callback {
 
-    private fun sendMessage(s : String?) {
-        val msg  = Message.obtain()
+    private fun sendToast(s: String?) {
+        val msg = Message.obtain()
         msg.obj = s
-        messageHandler.sendMessage(msg)
+        toastHandler.sendMessage(msg)
     }
 
     override fun onFailure(call: Call, e: IOException) {
         Log.e("LoginCallBack-onFailure", e.stackTraceToString())
-        sendMessage("登陆请求出现异常")
+        sendToast("登陆请求出现异常")
     }
 
     override fun onResponse(call: Call, response: Response) {
@@ -39,7 +39,7 @@ class LoginCallBack(private val context: LoginActivity,private val messageHandle
                 object : TypeToken<HttpResultVo<AppLoginRespVo>>() {}.type
             )
             if (!resultVo.success) {
-                sendMessage(resultVo.errorMsg)
+                sendToast(resultVo.errorMsg)
                 return
             }
             val result = resultVo.data
@@ -54,9 +54,10 @@ class LoginCallBack(private val context: LoginActivity,private val messageHandle
             data.putString("icon", result.icon)
             data.putString("token", result.token)
             intent.putExtras(data)
+            context.startActivity(intent)
         } catch (e: Exception) {
             Log.e("LoginCallBack-onResponse", e.stackTraceToString())
-            sendMessage("登陆请求出现异常")
+            sendToast("登陆请求出现异常")
         }
     }
 }
