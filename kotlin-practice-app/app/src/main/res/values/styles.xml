@@ -1,15 +1,15 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:colorBackground">#121212</item>
-        <item name="colorSurface">#1E1E1E</item>
-        <item name="colorPrimary">#BB68CF</item>
-        <item name="colorSecondary">#04DAC5</item>
-        <item name="colorOnBackground">#C7C7C7</item>
-        <item name="colorOnSurface">#DFDFDF</item>
-        <item name="colorOnPrimary">#18111E</item>
-        <item name="colorOnSecondary">#000707</item>
-        <item name="android:statusBarColor">#000000</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnBackground">@color/colorOnBackground</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
     </style>
 
 </resources>
