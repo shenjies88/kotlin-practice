@@ -2,11 +2,11 @@
 <resources>
     <color name="colorBackground">#121212</color>
     <color name="colorSurface">#1E1E1E</color>
-    <color name="colorPrimary">#B28BF5</color>
-    <color name="colorSecondary">#62D7C6</color>
-    <color name="colorOnBackground">#8E8E8E</color>
-    <color name="colorOnSurface">#ffffff</color>
-    <color name="colorOnPrimary">#000000</color>
-    <color name="colorOnSecondary">#000000</color>
+    <color name="colorPrimary">#BB68CF</color>
+    <color name="colorSecondary">#04DAC5</color>
+    <color name="colorOnBackground">#C7C7C7</color>
+    <color name="colorOnSurface">#DFDFDF</color>
+    <color name="colorOnPrimary">#18111E</color>
+    <color name="colorOnSecondary">#000707</color>
     <color name="colorStatusBar">#000000</color>
 </resources>
