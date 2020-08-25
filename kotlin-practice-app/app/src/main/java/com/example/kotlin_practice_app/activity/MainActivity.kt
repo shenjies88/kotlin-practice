@@ -113,8 +113,8 @@ class MainActivity : AppCompatActivity() {
     class MyInfoHandler(private val context: WeakReference<MainActivity>) : Handler() {
         override fun handleMessage(msg: Message) {
             val appLoginRespVo = msg.obj as AppLoginRespVo
-            context.get()!!.nvHeaderAccount.text = appLoginRespVo.account
-            context.get()!!.nvHeaderNickname.text = appLoginRespVo.nickname
+            context.get()?.nvHeaderAccount?.text = appLoginRespVo.account
+            context.get()?.nvHeaderNickname?.text = appLoginRespVo.nickname
         }
     }
 }
