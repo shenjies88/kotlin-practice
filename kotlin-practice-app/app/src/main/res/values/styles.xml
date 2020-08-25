@@ -1,7 +1,7 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:colorBackground">#000000</item>
+        <item name="android:colorBackground">#121212</item>
         <item name="colorSurface">#1E1E1E</item>
         <item name="colorPrimary">#B28BF5</item>
         <item name="colorSecondary">#62D7C6</item>
