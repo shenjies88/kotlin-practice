@@ -7,6 +7,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.kotlin_practice_app.R
 import com.google.android.material.appbar.MaterialToolbar
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var topAppBar: MaterialToolbar
