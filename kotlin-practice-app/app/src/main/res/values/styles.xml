@@ -11,5 +11,4 @@
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
         <item name="android:statusBarColor">@color/colorStatusBar</item>
     </style>
-
 </resources>
