@@ -5,7 +5,7 @@
     <color name="colorPrimary">#B28BF5</color>
     <color name="colorSecondary">#62D7C6</color>
     <color name="colorOnBackground">#8E8E8E</color>
-    <color name="colorOnSurface">#8E8E8E</color>
+    <color name="colorOnSurface">#ffffff</color>
     <color name="colorOnPrimary">#000000</color>
     <color name="colorOnSecondary">#000000</color>
     <color name="colorStatusBar">#000000</color>

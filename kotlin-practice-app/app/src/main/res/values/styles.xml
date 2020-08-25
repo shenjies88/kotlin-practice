@@ -6,19 +6,10 @@
         <item name="colorPrimary">#B28BF5</item>
         <item name="colorSecondary">#62D7C6</item>
         <item name="colorOnBackground">#8E8E8E</item>
-        <item name="colorOnSurface">#8E8E8E</item>
+        <item name="colorOnSurface">#ffffff</item>
         <item name="colorOnPrimary">#000000</item>
         <item name="colorOnSecondary">#000000</item>
         <item name="android:statusBarColor">#000000</item>
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
