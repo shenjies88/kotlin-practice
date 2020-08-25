@@ -26,7 +26,7 @@ class AppAuthenticationController @Autowired constructor(private val userService
 
     @ApiOperation("注册")
     @PostMapping("/registered")
-    fun registered(@RequestBody param: AppRegisteredReqVo): HttpResultVo<*>? {
+    fun registered(@RequestBody param: AppRegisteredReqVo): HttpResultVo<Nothing> {
         Assert.hasText(param.account, "账号不能为空")
         Assert.hasText(param.pwd, "密码不能为空")
         Assert.hasText(param.nickname, "昵称不能为空")

@@ -56,7 +56,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="昵称"
-                android:visibility="invisible"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/colorOnBackground">
 
