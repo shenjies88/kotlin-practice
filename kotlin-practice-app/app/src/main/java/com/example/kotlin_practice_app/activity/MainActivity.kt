@@ -15,6 +15,7 @@ import com.example.kotlin_practice_app.R
 import com.example.kotlin_practice_app.contant.AppConstant.INTERNET_PERMISSION_CODE
 import com.example.kotlin_practice_app.manager.TokenManager
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.navigation.NavigationView
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,9 +25,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nvHeaderIcon: ImageView
     private lateinit var nvHeaderAccount: TextView
     private lateinit var nvHeaderNickname: TextView
+    private lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         //请求网络权限
@@ -47,13 +50,19 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             Toast.makeText(this, "登陆已失效，请重新进行登陆", Toast.LENGTH_SHORT).show()
+            return
         }
 
         topAppBar = findViewById(R.id.top_app_bar)
         drawerLayout = findViewById(R.id.drawer_layout)
-        nvHeaderIcon = findViewById(R.id.nv_header_icon)
-        nvHeaderAccount = findViewById(R.id.nv_header_account)
-        nvHeaderNickname = findViewById(R.id.nv_header_nickname)
+        navigationView = findViewById(R.id.navigation_view)
+
+        val nvHeaderLayout = navigationView.getHeaderView(0)
+        nvHeaderIcon = nvHeaderLayout.findViewById(R.id.nv_header_icon)
+        nvHeaderAccount = nvHeaderLayout.findViewById(R.id.nv_header_account)
+        nvHeaderNickname = nvHeaderLayout.findViewById(R.id.nv_header_nickname)
+        nvHeaderAccount.text = intent.extras?.getString("account")
+        nvHeaderNickname.text = intent.extras?.getString("nickname")
 
         topAppBar.setNavigationOnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -62,11 +71,6 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
-
-        val account = intent.extras!!.getString("account")
-        val nickname = intent.extras!!.getString("nickname")
-        nvHeaderAccount.text = account
-        nvHeaderNickname.text = nickname
     }
 
     override fun onRequestPermissionsResult(
