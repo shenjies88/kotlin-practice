@@ -16,7 +16,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:launchMode="singleInstance"></activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

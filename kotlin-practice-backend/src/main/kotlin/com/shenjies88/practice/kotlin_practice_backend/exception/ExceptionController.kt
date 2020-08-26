@@ -19,6 +19,12 @@ class ExceptionController {
 
     companion object : MyLogger
 
+    @ExceptionHandler(MyAuthorizationException::class)
+    fun authorizationExceptionHandler(e: MyAuthorizationException): HttpResultVo<Nothing> {
+        log().error("授权异常 {}", e.message)
+        return HttpResultVo.failure(e.code, e.message)
+    }
+
     @ExceptionHandler(IllegalArgumentException::class)
     fun illegalArgumentExceptionHandler(e: IllegalArgumentException): HttpResultVo<Nothing> {
         var errorMessage: String? = "服务器繁忙"

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,14 +17,21 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.kotlin_practice_app.R
-import com.example.kotlin_practice_app.callback.MyInfoCallBack
+import com.example.kotlin_practice_app.callback.BaseCallback
 import com.example.kotlin_practice_app.client.BackendClient
 import com.example.kotlin_practice_app.contant.AppConstant.APP_TOKEN
 import com.example.kotlin_practice_app.contant.AppConstant.INTERNET_PERMISSION_CODE
 import com.example.kotlin_practice_app.handler.ToastHandler
+import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.AppLoginRespVo
+import com.example.kotlin_practice_app.vo.HttpResultVo
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.reflect.TypeToken
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import java.io.IOException
 import java.lang.ref.WeakReference
 
 
@@ -31,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     //Handler
     private lateinit var toastHandler: ToastHandler
+    private lateinit var userInfoHandler: MyInfoHandler
 
     //控件
     private lateinit var topAppBar: MaterialToolbar
@@ -88,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
         //请求用户信息
         toastHandler = ToastHandler(WeakReference(this))
-        val userInfoHandler = MyInfoHandler(WeakReference(this))
+        userInfoHandler = MyInfoHandler(WeakReference(this))
         BackendClient.myInfo(appToken, MyInfoCallBack(this, toastHandler, userInfoHandler))
     }
 
@@ -115,6 +124,42 @@ class MainActivity : AppCompatActivity() {
             val appLoginRespVo = msg.obj as AppLoginRespVo
             context.get()?.nvHeaderAccount?.text = appLoginRespVo.account
             context.get()?.nvHeaderNickname?.text = appLoginRespVo.nickname
+        }
+    }
+
+    class MyInfoCallBack(
+        private val context: Context,
+        toastHandler: ToastHandler,
+        private val myInfoHandler: MyInfoHandler
+    ) :
+        BaseCallback(toastHandler), Callback {
+
+        override fun onFailure(call: Call, e: IOException) {
+            Log.e("MyInfoCallBack-onFailure", e.stackTraceToString())
+            sendToast("我的信息请求出现异常")
+        }
+
+        override fun onResponse(call: Call, response: Response) {
+            val resultString = response.body!!.string()
+            try {
+                val resultVo = GsonUtil.fromJson<HttpResultVo<AppLoginRespVo>>(
+                    resultString,
+                    object : TypeToken<HttpResultVo<AppLoginRespVo>>() {}.type
+                )
+                if (!resultVo.success) {
+                    sendToast(resultVo.errorMsg)
+                    val intent = Intent(context, LoginActivity::class.java)
+                    context.startActivity(intent)
+                    return
+                }
+                val result = resultVo.data
+                val msg = Message.obtain()
+                msg.obj = result
+                myInfoHandler.sendMessage(msg)
+            } catch (e: Exception) {
+                Log.e("MyInfoCallBack-onResponse", e.stackTraceToString())
+                sendToast("我的信息请求出现异常")
+            }
         }
     }
 }

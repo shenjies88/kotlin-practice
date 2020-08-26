@@ -12,7 +12,7 @@ class HttpResultVo<T>(
         @ApiModelProperty("成功标志")
         val success: Boolean,
         @ApiModelProperty("错误码")
-        val code: Int,
+        val code: Int?,
         @ApiModelProperty("返回数据")
         val data: T?,
         @ApiModelProperty("错误消息")
@@ -22,6 +22,6 @@ class HttpResultVo<T>(
         fun <T> successReturn(data: T): HttpResultVo<T> = HttpResultVo<T>(true, 0, data, null)
         fun successReturn() = HttpResultVo(true, 0, null, null)
         fun failure(errorMsg: String?) = HttpResultVo(false, 1, null, errorMsg)
-        fun failure(code: Int, errorMsg: String) = HttpResultVo(false, code, null, errorMsg)
+        fun failure(code: Int?, errorMsg: String?) = HttpResultVo(false, code, null, errorMsg)
     }
 }
