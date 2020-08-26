@@ -29,5 +29,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/colorBackground"
-        app:headerLayout="@layout/nv_header" />
+        app:headerLayout="@layout/nv_header"
+        app:menu="@menu/nv_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

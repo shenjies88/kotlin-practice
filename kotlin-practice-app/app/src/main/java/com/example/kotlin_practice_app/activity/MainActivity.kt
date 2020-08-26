@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -102,6 +104,12 @@ class MainActivity : AppCompatActivity() {
         //请求用户信息
         userInfoHandler = MyInfoHandler(WeakReference(this))
         BackendClient.myInfo(appToken, MyInfoCallBack(this, toastHandler, userInfoHandler))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.nv_menu, menu)
+        return true
     }
 
     /**
