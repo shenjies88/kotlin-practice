@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -24,6 +25,7 @@ import com.example.kotlin_practice_app.client.BackendClient
 import com.example.kotlin_practice_app.contant.AppConstant.APP_TOKEN
 import com.example.kotlin_practice_app.contant.AppConstant.INTERNET_PERMISSION_CODE
 import com.example.kotlin_practice_app.contant.ClientConstant.UN_AUTHORIZATION_CODE
+import com.example.kotlin_practice_app.fragment.ItemFragment
 import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.manager.TokenManager
 import com.example.kotlin_practice_app.utils.GsonUtil
@@ -47,12 +49,15 @@ class MainActivity : AppCompatActivity() {
 
     //控件
     private lateinit var topAppBar: MaterialToolbar
-    private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var nvHeaderLayout: View
     private lateinit var nvHeaderIcon: ImageView
     lateinit var nvHeaderAccount: TextView
     lateinit var nvHeaderNickname: TextView
+
+    //layout
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var fragmentLayout: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,14 +90,23 @@ class MainActivity : AppCompatActivity() {
         TokenManager.setToken(appToken)
 
         toastHandler = ToastHandler(WeakReference(this))
+        userInfoHandler = MyInfoHandler(WeakReference(this))
 
         topAppBar = findViewById(R.id.top_app_bar)
-        drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigation_view)
         nvHeaderLayout = navigationView.getHeaderView(0)
         nvHeaderIcon = nvHeaderLayout.findViewById(R.id.nv_header_icon)
         nvHeaderAccount = nvHeaderLayout.findViewById(R.id.nv_header_account)
         nvHeaderNickname = nvHeaderLayout.findViewById(R.id.nv_header_nickname)
+
+        drawerLayout = findViewById(R.id.drawer_layout)
+        fragmentLayout = findViewById(R.id.fragment_layout)
+
+        val itemFragment = ItemFragment.newInstance(1)
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_layout, itemFragment)
+        transaction.commit()
+
 
         topAppBar.setNavigationOnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
