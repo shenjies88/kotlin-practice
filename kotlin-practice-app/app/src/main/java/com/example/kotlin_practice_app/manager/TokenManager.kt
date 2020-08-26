@@ -6,6 +6,6 @@ class TokenManager {
         private val APP_TOKEN = "app-token"
         private val tokenMap = HashMap<String, String>()
         fun setToken(token: String) = tokenMap.put(APP_TOKEN, token)
-        fun getToken(): String? = tokenMap[APP_TOKEN]
+        fun getToken(): String = tokenMap[APP_TOKEN] ?: ""
     }
 }

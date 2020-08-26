@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "登陆已失效，请重新进行登陆", Toast.LENGTH_SHORT).show()
             return
         }
+        TokenManager.setToken(appToken)
 
         toastHandler = ToastHandler(WeakReference(this))
 
@@ -103,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
         //请求用户信息
         userInfoHandler = MyInfoHandler(WeakReference(this))
-        BackendClient.myInfo(appToken, MyInfoCallBack(this, toastHandler, userInfoHandler))
+        BackendClient.myInfo(MyInfoCallBack(this, toastHandler, userInfoHandler))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

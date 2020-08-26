@@ -48,7 +48,10 @@ class LoginActivity : AppCompatActivity() {
         editNickname = findViewById(R.id.edit_nickname)
 
         btReg.setOnClickListener {
-
+            val account = editAccount.editText!!.text.toString()
+            val pwd = editPwd.editText!!.text.toString()
+            val nickname = editNickname.editText!!.text.toString()
+            BackendClient.registered(account, pwd, nickname, RegisteredCallBack(toastHandler))
         }
 
         btLogin.setOnClickListener {
@@ -58,6 +61,40 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 注册回调
+     */
+    class RegisteredCallBack(toastHandler: ToastHandler) :
+        BaseCallback(toastHandler), Callback {
+        override fun onFailure(call: Call, e: IOException) {
+            Log.e("RegisteredCallBack-onFailure", e.stackTraceToString())
+            sendToast("注册请求出现异常")
+        }
+
+        override fun onResponse(call: Call, response: Response) {
+            val resultString = response.body!!.string()
+            Log.i("RegisteredCallBack-onResponse", resultString)
+            try {
+                val resultVo = GsonUtil.fromJson<HttpResultVo<Nothing>>(
+                    resultString,
+                    object : TypeToken<HttpResultVo<Nothing>>() {}.type
+                )
+                if (!resultVo.success) {
+                    sendToast(resultVo.errorMsg)
+                } else {
+                    sendToast("注册成功")
+                }
+            } catch (e: Exception) {
+                Log.e("RegisteredCallBack-onResponse", e.stackTraceToString())
+                sendToast("注册请求出现异常")
+            }
+        }
+    }
+
+
+    /**
+     * 登陆回调
+     */
     class LoginCallBack(private val context: LoginActivity, toastHandler: ToastHandler) :
         BaseCallback(toastHandler), Callback {
 
@@ -68,6 +105,7 @@ class LoginActivity : AppCompatActivity() {
 
         override fun onResponse(call: Call, response: Response) {
             val resultString = response.body!!.string()
+            Log.i("LoginCallBack-onResponse", resultString)
             try {
                 val resultVo = GsonUtil.fromJson<HttpResultVo<AppLoginRespVo>>(
                     resultString,
@@ -77,6 +115,7 @@ class LoginActivity : AppCompatActivity() {
                     sendToast(resultVo.errorMsg)
                     return
                 }
+                sendToast("登陆成功")
                 val result = resultVo.data
                 //缓存token
                 TokenManager.setToken(result!!.token)
