@@ -21,7 +21,9 @@ import com.example.kotlin_practice_app.callback.BaseCallback
 import com.example.kotlin_practice_app.client.BackendClient
 import com.example.kotlin_practice_app.contant.AppConstant.APP_TOKEN
 import com.example.kotlin_practice_app.contant.AppConstant.INTERNET_PERMISSION_CODE
+import com.example.kotlin_practice_app.contant.ClientConstant.UN_AUTHORIZATION_CODE
 import com.example.kotlin_practice_app.handler.ToastHandler
+import com.example.kotlin_practice_app.manager.TokenManager
 import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.AppLoginRespVo
 import com.example.kotlin_practice_app.vo.HttpResultVo
@@ -79,6 +81,8 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        toastHandler = ToastHandler(WeakReference(this))
+
         topAppBar = findViewById(R.id.top_app_bar)
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigation_view)
@@ -96,11 +100,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         //请求用户信息
-        toastHandler = ToastHandler(WeakReference(this))
         userInfoHandler = MyInfoHandler(WeakReference(this))
         BackendClient.myInfo(appToken, MyInfoCallBack(this, toastHandler, userInfoHandler))
     }
 
+    /**
+     * 权限申请响应
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -127,12 +133,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 我的用户信息回调
+     */
     class MyInfoCallBack(
-        private val context: Context,
+        private val context: MainActivity,
         toastHandler: ToastHandler,
         private val myInfoHandler: MyInfoHandler
-    ) :
-        BaseCallback(toastHandler), Callback {
+    ) : BaseCallback(toastHandler), Callback {
 
         override fun onFailure(call: Call, e: IOException) {
             Log.e("MyInfoCallBack-onFailure", e.stackTraceToString())
@@ -148,11 +156,14 @@ class MainActivity : AppCompatActivity() {
                 )
                 if (!resultVo.success) {
                     sendToast(resultVo.errorMsg)
-                    val intent = Intent(context, LoginActivity::class.java)
-                    context.startActivity(intent)
+                    if (resultVo.code == UN_AUTHORIZATION_CODE) {
+                        context.startActivity(Intent(context, LoginActivity::class.java))
+                        context.finish()
+                    }
                     return
                 }
                 val result = resultVo.data
+                TokenManager.setToken(result!!.token)
                 val msg = Message.obtain()
                 msg.obj = result
                 myInfoHandler.sendMessage(msg)

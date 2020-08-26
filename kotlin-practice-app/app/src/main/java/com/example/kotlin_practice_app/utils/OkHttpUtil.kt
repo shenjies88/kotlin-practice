@@ -21,13 +21,12 @@ class OkHttpUtil {
         }
 
         fun asyPost(url: String, json: String, headers: Headers, callback: Callback) {
-            val body = json.toRequestBody(JSON)
-            Log.i("OkHttpUtil-asyPost", "url: $url")
-            Log.i("OkHttpUtil-asyPost", "body: ${GsonUtil.toJson(json)}")
-            Log.i("OkHttpUtil-asyPost", "headers: ${GsonUtil.toJson(headers)}")
+            Log.i("OkHttpUtil-url", "url: $url")
+            Log.i("OkHttpUtil-body", "body: $json")
+            Log.i("OkHttpUtil-headers", "headers: ${GsonUtil.toJson(headers)}")
             val request: Request = Request.Builder()
                 .url(url)
-                .post(body)
+                .post(json.toRequestBody(JSON))
                 .headers(headers)
                 .build()
             client.newCall(request).enqueue(callback)

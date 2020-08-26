@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    class LoginCallBack(private val context: Context, toastHandler: ToastHandler) :
+    class LoginCallBack(private val context: LoginActivity, toastHandler: ToastHandler) :
         BaseCallback(toastHandler), Callback {
 
         override fun onFailure(call: Call, e: IOException) {
@@ -87,8 +87,9 @@ class LoginActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.putString(AppConstant.APP_TOKEN, result.token)
                 editor.apply()
-
+                TokenManager.setToken(result.token)
                 context.startActivity(intent)
+                context.finish()
             } catch (e: Exception) {
                 Log.e("LoginCallBack-onResponse", e.stackTraceToString())
                 sendToast("登陆请求出现异常")

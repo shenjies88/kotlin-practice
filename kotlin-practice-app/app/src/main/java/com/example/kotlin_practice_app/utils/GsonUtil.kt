@@ -6,9 +6,9 @@ import java.lang.reflect.Type
 class GsonUtil {
 
     companion object {
-        val gson = Gson()
-        fun <T> toJson (data: T) : String = gson.toJson(data)
+        private val gson = Gson()
 
-        fun <T> fromJson (json: String, type: Type) : T = gson.fromJson(json,type)
+        fun <T> toJson(data: T): String = gson.toJson(data)
+        fun <T> fromJson(json: String, type: Type): T = gson.fromJson(json, type)
     }
 }
