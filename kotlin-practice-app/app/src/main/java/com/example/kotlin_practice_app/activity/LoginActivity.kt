@@ -11,7 +11,7 @@ import com.example.kotlin_practice_app.callback.BaseCallback
 import com.example.kotlin_practice_app.client.BackendClient
 import com.example.kotlin_practice_app.contant.AppConstant
 import com.example.kotlin_practice_app.handler.ToastHandler
-import com.example.kotlin_practice_app.manager.TokenManager
+import com.example.kotlin_practice_app.manager.UserInfoManager
 import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.AppLoginReqVo
 import com.example.kotlin_practice_app.vo.AppLoginRespVo
@@ -124,17 +124,15 @@ class LoginActivity : AppCompatActivity() {
                 }
                 sendToast("登陆成功")
                 val data = resultVo.data
-                //缓存token
-                TokenManager.setToken(data!!.token)
                 //传递数据启动MainActivity
                 val intent = Intent(context, MainActivity::class.java)
                 //存储token
                 val sharedPreferences =
                     context.getSharedPreferences(AppConstant.APP_TOKEN, Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
-                editor.putString(AppConstant.APP_TOKEN, data.token)
+                editor.putString(AppConstant.APP_TOKEN, data!!.token)
                 editor.apply()
-                TokenManager.setToken(data.token)
+                UserInfoManager.saveUser(data)
                 context.startActivity(intent)
                 context.finish()
             } catch (e: Exception) {

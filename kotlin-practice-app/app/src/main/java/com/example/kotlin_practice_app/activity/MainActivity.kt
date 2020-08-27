@@ -22,14 +22,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.kotlin_practice_app.R
 import com.example.kotlin_practice_app.callback.BaseCallback
 import com.example.kotlin_practice_app.client.BackendClient
-import com.example.kotlin_practice_app.contant.AppConstant.APP_TOKEN
+import com.example.kotlin_practice_app.contant.AppConstant
 import com.example.kotlin_practice_app.contant.AppConstant.INTERNET_PERMISSION_CODE
 import com.example.kotlin_practice_app.fragment.GoodsFragment
 import com.example.kotlin_practice_app.handler.ToastHandler
-import com.example.kotlin_practice_app.manager.TokenManager
+import com.example.kotlin_practice_app.manager.UserInfoManager
 import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.*
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.reflect.TypeToken
 import okhttp3.Call
@@ -50,15 +51,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private lateinit var nvHeaderLayout: View
     private lateinit var nvHeaderIcon: ImageView
-    lateinit var nvHeaderAccount: TextView
-    lateinit var nvHeaderNickname: TextView
+    private lateinit var nvHeaderAccount: TextView
+    private lateinit var nvHeaderNickname: TextView
+    private lateinit var floatingActionButton: FloatingActionButton
+
 
     //layout
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var fragmentLayout: FrameLayout
-
-    //用户信息
-    private var userInfo: AppLoginRespVo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,18 +78,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val sharedPreferences = getSharedPreferences(APP_TOKEN, Context.MODE_PRIVATE)
-        val appToken = sharedPreferences.getString(APP_TOKEN, "")
-
-        //如果没有token就启动LoginActivity
-        if (appToken.isNullOrBlank()) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            Toast.makeText(this, "登陆已失效，请重新进行登陆", Toast.LENGTH_SHORT).show()
-            return
-        }
-        TokenManager.setToken(appToken)
-
         toastHandler = ToastHandler(WeakReference(this))
         userInfoHandler = MyInfoHandler(WeakReference(this))
 
@@ -99,6 +87,7 @@ class MainActivity : AppCompatActivity() {
         nvHeaderIcon = nvHeaderLayout.findViewById(R.id.nv_header_icon)
         nvHeaderAccount = nvHeaderLayout.findViewById(R.id.nv_header_account)
         nvHeaderNickname = nvHeaderLayout.findViewById(R.id.nv_header_nickname)
+        floatingActionButton = findViewById(R.id.floating_action_button)
 
         drawerLayout = findViewById(R.id.drawer_layout)
         fragmentLayout = findViewById(R.id.root_fragment_layout)
@@ -111,18 +100,32 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
+
+        //TODO 根据Fragment的不同，弹出不同对话框
+        //弹出新增对话框
+        floatingActionButton.setOnClickListener {
+        }
     }
 
 
     override fun onStart() {
+        val sharedPreferences = getSharedPreferences(AppConstant.APP_TOKEN, Context.MODE_PRIVATE)
+        val appToken = sharedPreferences.getString(AppConstant.APP_TOKEN, "")
+        //如果没有token就启动LoginActivity
+        if (appToken.isNullOrBlank()) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(this, "登陆已失效，请重新进行登陆", Toast.LENGTH_SHORT).show()
+            return
+        }
         //请求用户信息
         userInfoHandler = MyInfoHandler(WeakReference(this))
-        BackendClient.AppUser.myInfo(MyInfoCallBack(this, toastHandler, userInfoHandler))
+        BackendClient.AppUser.myInfo(appToken, MyInfoCallBack(this, toastHandler, userInfoHandler))
         super.onStart()
     }
 
     override fun onStop() {
-        userInfo = null
+        UserInfoManager.clean()
         super.onStop()
     }
 
@@ -223,8 +226,7 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
                 val data = resultVo.data
-                context.userInfo = data
-                TokenManager.setToken(data!!.token)
+                UserInfoManager.saveUser(data)
                 val msg = Message.obtain()
                 msg.obj = data
                 myInfoHandler.sendMessage(msg)

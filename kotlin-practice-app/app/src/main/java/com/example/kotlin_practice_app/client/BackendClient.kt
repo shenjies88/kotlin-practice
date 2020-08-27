@@ -2,7 +2,7 @@ package com.example.kotlin_practice_app.client
 
 import com.example.kotlin_practice_app.contant.AppConstant.APP_TOKEN
 import com.example.kotlin_practice_app.contant.ClientConstant.BASE_URL
-import com.example.kotlin_practice_app.manager.TokenManager
+import com.example.kotlin_practice_app.manager.UserInfoManager
 import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.utils.OkHttpUtil
 import com.example.kotlin_practice_app.vo.AppLoginReqVo
@@ -42,9 +42,9 @@ object BackendClient {
         /**
          * 我的用户信息
          */
-        fun myInfo(callback: Callback) {
+        fun myInfo(token: String, callback: Callback) {
             val url = "$BASE_URL$preUrl/my-info"
-            OkHttpUtil.asyPost(url, Headers.headersOf(APP_TOKEN, TokenManager.getToken()), callback)
+            OkHttpUtil.asyPost(url, Headers.headersOf(APP_TOKEN, token), callback)
         }
     }
 
@@ -60,7 +60,20 @@ object BackendClient {
             OkHttpUtil.asyPost(
                 url,
                 GsonUtil.toJson(requestBody),
-                Headers.headersOf(APP_TOKEN, TokenManager.getToken()),
+                Headers.headersOf(APP_TOKEN, UserInfoManager.getUser()!!.token),
+                callback
+            )
+        }
+
+        /**
+         * 增加商品
+         */
+        fun insert(name: String, callback: Callback) {
+            val url = "$BASE_URL${preUrl}"
+            OkHttpUtil.asyPut(
+                url,
+                name,
+                Headers.headersOf(APP_TOKEN, UserInfoManager.getUser()!!.token),
                 callback
             )
         }
