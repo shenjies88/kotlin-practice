@@ -8,10 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_practice_app.R
 import com.example.kotlin_practice_app.vo.GoodsDO
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class GoodsRecyclerViewAdapter(
     private val values: Array<GoodsDO>
 ) : RecyclerView.Adapter<GoodsRecyclerViewAdapter.ViewHolder>() {
