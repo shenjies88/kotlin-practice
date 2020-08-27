@@ -27,6 +27,7 @@ import com.example.kotlin_practice_app.contant.AppConstant.INTERNET_PERMISSION_C
 import com.example.kotlin_practice_app.fragment.GoodsFragment
 import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.manager.TokenManager
+import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.*
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
@@ -166,7 +167,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val resultString = response.body!!.string()
                 Log.i("MyGoodsPage-onResponse", resultString)
-                val resultVo = serialization<HttpResultVo<PageVo<GoodsDO>>>(
+                val resultVo = GsonUtil.fromJson<HttpResultVo<PageVo<GoodsDO>>>(
                     resultString,
                     object : TypeToken<HttpResultVo<PageVo<GoodsDO>>>() {}.type
                 )
@@ -214,7 +215,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val resultString = response.body!!.string()
                 Log.i("MyInfoCallBack-onResponse", resultString)
-                val resultVo = serialization<HttpResultVo<AppLoginRespVo>>(
+                val resultVo = GsonUtil.fromJson<HttpResultVo<AppLoginRespVo>>(
                     resultString,
                     object : TypeToken<HttpResultVo<AppLoginRespVo>>() {}.type
                 )

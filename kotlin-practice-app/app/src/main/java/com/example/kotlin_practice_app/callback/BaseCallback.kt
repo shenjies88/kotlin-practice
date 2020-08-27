@@ -6,9 +6,7 @@ import android.os.Message
 import com.example.kotlin_practice_app.activity.LoginActivity
 import com.example.kotlin_practice_app.contant.ClientConstant
 import com.example.kotlin_practice_app.handler.ToastHandler
-import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.HttpResultVo
-import java.lang.reflect.Type
 
 open class BaseCallback(private val toastHandler: ToastHandler) {
 
@@ -17,8 +15,6 @@ open class BaseCallback(private val toastHandler: ToastHandler) {
         msg.obj = s
         toastHandler.sendMessage(msg)
     }
-
-    fun <T> serialization(s: String, type: Type): T = GsonUtil.fromJson(s, type)
 
     fun authentication(resultVo: HttpResultVo<*>, context: Activity): Boolean {
         if (!resultVo.success) {

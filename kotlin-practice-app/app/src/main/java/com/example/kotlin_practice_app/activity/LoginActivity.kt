@@ -12,6 +12,7 @@ import com.example.kotlin_practice_app.client.BackendClient
 import com.example.kotlin_practice_app.contant.AppConstant
 import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.manager.TokenManager
+import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.AppLoginReqVo
 import com.example.kotlin_practice_app.vo.AppLoginRespVo
 import com.example.kotlin_practice_app.vo.AppRegisteredReqVo
@@ -82,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
             try {
                 val resultString = response.body!!.string()
                 Log.i("RegisteredCallBack-onResponse", resultString)
-                val resultVo = serialization<HttpResultVo<Nothing>>(
+                val resultVo = GsonUtil.fromJson<HttpResultVo<Nothing>>(
                     resultString,
                     object : TypeToken<HttpResultVo<Nothing>>() {}.type
                 )
@@ -114,7 +115,7 @@ class LoginActivity : AppCompatActivity() {
             try {
                 val resultString = response.body!!.string()
                 Log.i("LoginCallBack-onResponse", resultString)
-                val resultVo = serialization<HttpResultVo<AppLoginRespVo>>(
+                val resultVo = GsonUtil.fromJson<HttpResultVo<AppLoginRespVo>>(
                     resultString,
                     object : TypeToken<HttpResultVo<AppLoginRespVo>>() {}.type
                 )
