@@ -24,13 +24,10 @@ import com.example.kotlin_practice_app.callback.BaseCallback
 import com.example.kotlin_practice_app.client.BackendClient
 import com.example.kotlin_practice_app.contant.AppConstant.APP_TOKEN
 import com.example.kotlin_practice_app.contant.AppConstant.INTERNET_PERMISSION_CODE
-import com.example.kotlin_practice_app.contant.ClientConstant.UN_AUTHORIZATION_CODE
-import com.example.kotlin_practice_app.fragment.ItemFragment
+import com.example.kotlin_practice_app.fragment.GoodsFragment
 import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.manager.TokenManager
-import com.example.kotlin_practice_app.utils.GsonUtil
-import com.example.kotlin_practice_app.vo.AppLoginRespVo
-import com.example.kotlin_practice_app.vo.HttpResultVo
+import com.example.kotlin_practice_app.vo.*
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.reflect.TypeToken
@@ -58,6 +55,9 @@ class MainActivity : AppCompatActivity() {
     //layout
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var fragmentLayout: FrameLayout
+
+    //用户信息
+    private var userInfo: AppLoginRespVo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,12 +100,7 @@ class MainActivity : AppCompatActivity() {
         nvHeaderNickname = nvHeaderLayout.findViewById(R.id.nv_header_nickname)
 
         drawerLayout = findViewById(R.id.drawer_layout)
-        fragmentLayout = findViewById(R.id.fragment_layout)
-
-        val itemFragment = ItemFragment.newInstance(1)
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_layout, itemFragment)
-        transaction.commit()
+        fragmentLayout = findViewById(R.id.root_fragment_layout)
 
 
         topAppBar.setNavigationOnClickListener {
@@ -115,11 +110,21 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
+    }
 
+
+    override fun onStart() {
         //请求用户信息
         userInfoHandler = MyInfoHandler(WeakReference(this))
-        BackendClient.myInfo(MyInfoCallBack(this, toastHandler, userInfoHandler))
+        BackendClient.AppUser.myInfo(MyInfoCallBack(this, toastHandler, userInfoHandler))
+        super.onStart()
     }
+
+    override fun onStop() {
+        userInfo = null
+        super.onStop()
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -146,7 +151,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * 更新用户信息
+     * 我的商品列表分页回调
+     */
+    class MyGoodsPageCallback(
+        private val context: MainActivity,
+        toastHandler: ToastHandler,
+    ) : BaseCallback(toastHandler), Callback {
+        override fun onFailure(call: Call, e: IOException) {
+            Log.e("MyGoodsPage-onFailure", e.stackTraceToString())
+            sendToast("我的商品列表分页求出现异常")
+        }
+
+        override fun onResponse(call: Call, response: Response) {
+            try {
+                val resultString = response.body!!.string()
+                Log.i("MyGoodsPage-onResponse", resultString)
+                val resultVo = serialization<HttpResultVo<PageVo<GoodsDO>>>(
+                    resultString,
+                    object : TypeToken<HttpResultVo<PageVo<GoodsDO>>>() {}.type
+                )
+                if (!authentication(resultVo, context)) {
+                    return
+                }
+                val data = resultVo.data
+                val goodsFragment = GoodsFragment.newInstance(data?.list ?: arrayOf())
+                val transaction = context.supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.root_fragment_layout, goodsFragment)
+                transaction.commit()
+            } catch (e: Exception) {
+                Log.e("MyGoodsPage-onResponse", e.stackTraceToString())
+                sendToast("我的商品列表分页求出现异常")
+            }
+        }
+    }
+
+    /**
+     * 我的用户信息处理
      */
     class MyInfoHandler(private val context: WeakReference<MainActivity>) : Handler() {
         override fun handleMessage(msg: Message) {
@@ -161,7 +201,7 @@ class MainActivity : AppCompatActivity() {
      */
     class MyInfoCallBack(
         private val context: MainActivity,
-        toastHandler: ToastHandler,
+        private val toastHandler: ToastHandler,
         private val myInfoHandler: MyInfoHandler
     ) : BaseCallback(toastHandler), Callback {
 
@@ -171,25 +211,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onResponse(call: Call, response: Response) {
-            val resultString = response.body!!.string()
             try {
-                val resultVo = GsonUtil.fromJson<HttpResultVo<AppLoginRespVo>>(
+                val resultString = response.body!!.string()
+                Log.i("MyInfoCallBack-onResponse", resultString)
+                val resultVo = serialization<HttpResultVo<AppLoginRespVo>>(
                     resultString,
                     object : TypeToken<HttpResultVo<AppLoginRespVo>>() {}.type
                 )
-                if (!resultVo.success) {
-                    sendToast(resultVo.errorMsg)
-                    if (resultVo.code == UN_AUTHORIZATION_CODE) {
-                        context.startActivity(Intent(context, LoginActivity::class.java))
-                        context.finish()
-                    }
+                if (!authentication(resultVo, context)) {
                     return
                 }
-                val result = resultVo.data
-                TokenManager.setToken(result!!.token)
+                val data = resultVo.data
+                context.userInfo = data
+                TokenManager.setToken(data!!.token)
                 val msg = Message.obtain()
-                msg.obj = result
+                msg.obj = data
                 myInfoHandler.sendMessage(msg)
+                //请求商品信息
+                BackendClient.AppGoods.page(
+                    AppMyGoodsPageReqVo(),
+                    MyGoodsPageCallback(context, toastHandler)
+                )
             } catch (e: Exception) {
                 Log.e("MyInfoCallBack-onResponse", e.stackTraceToString())
                 sendToast("我的信息请求出现异常")

@@ -12,8 +12,9 @@ import com.example.kotlin_practice_app.client.BackendClient
 import com.example.kotlin_practice_app.contant.AppConstant
 import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.manager.TokenManager
-import com.example.kotlin_practice_app.utils.GsonUtil
+import com.example.kotlin_practice_app.vo.AppLoginReqVo
 import com.example.kotlin_practice_app.vo.AppLoginRespVo
+import com.example.kotlin_practice_app.vo.AppRegisteredReqVo
 import com.example.kotlin_practice_app.vo.HttpResultVo
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.reflect.TypeToken
@@ -51,13 +52,19 @@ class LoginActivity : AppCompatActivity() {
             val account = editAccount.editText!!.text.toString()
             val pwd = editPwd.editText!!.text.toString()
             val nickname = editNickname.editText!!.text.toString()
-            BackendClient.registered(account, pwd, nickname, RegisteredCallBack(toastHandler))
+            BackendClient.AppAuthentication.registered(
+                AppRegisteredReqVo(account, pwd, nickname),
+                RegisteredCallBack(toastHandler)
+            )
         }
 
         btLogin.setOnClickListener {
             val account = editAccount.editText!!.text.toString()
             val pwd = editPwd.editText!!.text.toString()
-            BackendClient.login(account, pwd, LoginCallBack(this, toastHandler))
+            BackendClient.AppAuthentication.login(
+                AppLoginReqVo(account, pwd),
+                LoginCallBack(this, toastHandler)
+            )
         }
     }
 
@@ -72,10 +79,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun onResponse(call: Call, response: Response) {
-            val resultString = response.body!!.string()
-            Log.i("RegisteredCallBack-onResponse", resultString)
             try {
-                val resultVo = GsonUtil.fromJson<HttpResultVo<Nothing>>(
+                val resultString = response.body!!.string()
+                Log.i("RegisteredCallBack-onResponse", resultString)
+                val resultVo = serialization<HttpResultVo<Nothing>>(
                     resultString,
                     object : TypeToken<HttpResultVo<Nothing>>() {}.type
                 )
@@ -104,29 +111,29 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun onResponse(call: Call, response: Response) {
-            val resultString = response.body!!.string()
-            Log.i("LoginCallBack-onResponse", resultString)
             try {
-                val resultVo = GsonUtil.fromJson<HttpResultVo<AppLoginRespVo>>(
+                val resultString = response.body!!.string()
+                Log.i("LoginCallBack-onResponse", resultString)
+                val resultVo = serialization<HttpResultVo<AppLoginRespVo>>(
                     resultString,
                     object : TypeToken<HttpResultVo<AppLoginRespVo>>() {}.type
                 )
-                if (!resultVo.success) {
-                    sendToast(resultVo.errorMsg)
+                if (!authentication(resultVo, context)) {
                     return
                 }
                 sendToast("登陆成功")
-                val result = resultVo.data
+                val data = resultVo.data
                 //缓存token
-                TokenManager.setToken(result!!.token)
+                TokenManager.setToken(data!!.token)
                 //传递数据启动MainActivity
                 val intent = Intent(context, MainActivity::class.java)
                 //存储token
-                val sharedPreferences = context.getSharedPreferences(AppConstant.APP_TOKEN, Context.MODE_PRIVATE)
+                val sharedPreferences =
+                    context.getSharedPreferences(AppConstant.APP_TOKEN, Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
-                editor.putString(AppConstant.APP_TOKEN, result.token)
+                editor.putString(AppConstant.APP_TOKEN, data.token)
                 editor.apply()
-                TokenManager.setToken(result.token)
+                TokenManager.setToken(data.token)
                 context.startActivity(intent)
                 context.finish()
             } catch (e: Exception) {

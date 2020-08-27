@@ -3,12 +3,10 @@ package com.example.kotlin_practice_app.utils
 import com.google.gson.Gson
 import java.lang.reflect.Type
 
-class GsonUtil {
+object GsonUtil {
 
-    companion object {
-        private val gson = Gson()
+    private val gson = Gson()
 
-        fun <T> toJson(data: T): String = gson.toJson(data)
-        fun <T> fromJson(json: String, type: Type): T = gson.fromJson(json, type)
-    }
+    fun <T> toJson(data: T): String = gson.toJson(data)
+    fun <T> fromJson(json: String?, type: Type): T = gson.fromJson(json, type)
 }
