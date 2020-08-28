@@ -96,7 +96,7 @@ object BackendClient {
          * 修改我的商品
          */
         fun update(requestBody: AppMyGoodsUpdateReqVo, callback: Callback) {
-            val url = "$BASE_URL${preUrl}/update"
+            val url = "$BASE_URL${preUrl}/ic_update"
             OkHttpUtil.asyPost(
                 url,
                 GsonUtil.toJson(requestBody),

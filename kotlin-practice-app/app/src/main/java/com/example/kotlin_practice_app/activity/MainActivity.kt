@@ -34,6 +34,7 @@ import com.example.kotlin_practice_app.vo.AppLoginRespVo
 import com.example.kotlin_practice_app.vo.AppMyGoodsPageReqVo
 import com.example.kotlin_practice_app.vo.HttpResultVo
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.reflect.TypeToken
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     //Handler
     private lateinit var toastHandler: ToastHandler
-    private lateinit var userInfoHandler: MyInfoHandler
+    private lateinit var myInfoHandler: MyInfoHandler
 
     //控件
     private lateinit var topAppBar: MaterialToolbar
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nvHeaderAccount: TextView
     private lateinit var nvHeaderNickname: TextView
     private lateinit var floatingActionButton: FloatingActionButton
-
+    private lateinit var bottomNavigation: BottomNavigationView
 
     //layout
     private lateinit var drawerLayout: DrawerLayout
@@ -82,8 +83,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val sharedPreferences = getSharedPreferences(AppConstant.APP_TOKEN, Context.MODE_PRIVATE)
+        val appToken = sharedPreferences.getString(AppConstant.APP_TOKEN, "")
+        //如果没有token就启动LoginActivity
+        if (appToken.isNullOrBlank()) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(this, "登陆已失效，请重新进行登陆", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         toastHandler = ToastHandler(WeakReference(this))
-        userInfoHandler = MyInfoHandler(WeakReference(this))
+        myInfoHandler = MyInfoHandler(WeakReference(this))
+
+        BackendClient.AppUser.myInfo(appToken, MyInfoCallBack(this, toastHandler, myInfoHandler))
+
 
         topAppBar = findViewById(R.id.top_app_bar)
         navigationView = findViewById(R.id.navigation_view)
@@ -92,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         nvHeaderAccount = nvHeaderLayout.findViewById(R.id.nv_header_account)
         nvHeaderNickname = nvHeaderLayout.findViewById(R.id.nv_header_nickname)
         floatingActionButton = findViewById(R.id.floating_action_button)
+        bottomNavigation = findViewById(R.id.bottom_navigation)
 
         drawerLayout = findViewById(R.id.drawer_layout)
         fragmentLayout = findViewById(R.id.root_fragment_layout)
@@ -105,6 +120,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.it_goods -> {
+                    BackendClient.AppGoods.page(
+                        AppMyGoodsPageReqVo(),
+                        MyGoodsPageCallback(this, toastHandler)
+                    )
+                    true
+                }
+                R.id.it_star1 -> {
+                    Toast.makeText(this, "其他1", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.it_star2 -> {
+                    Toast.makeText(this, "其他2", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.it_star3 -> {
+                    Toast.makeText(this, "其他3", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+
         //TODO 根据底部导航不同，弹出不同对话框
         //弹出新增对话框
         floatingActionButton.setOnClickListener {
@@ -112,29 +152,6 @@ class MainActivity : AppCompatActivity() {
                 .show(supportFragmentManager, GOODS_DIALOG_FRAGMENT)
         }
     }
-
-
-    override fun onStart() {
-        val sharedPreferences = getSharedPreferences(AppConstant.APP_TOKEN, Context.MODE_PRIVATE)
-        val appToken = sharedPreferences.getString(AppConstant.APP_TOKEN, "")
-        //如果没有token就启动LoginActivity
-        if (appToken.isNullOrBlank()) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            Toast.makeText(this, "登陆已失效，请重新进行登陆", Toast.LENGTH_SHORT).show()
-            return
-        }
-        //请求用户信息
-        userInfoHandler = MyInfoHandler(WeakReference(this))
-        BackendClient.AppUser.myInfo(appToken, MyInfoCallBack(this, toastHandler, userInfoHandler))
-        super.onStart()
-    }
-
-    override fun onStop() {
-        UserInfoManager.clean()
-        super.onStop()
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -201,7 +218,6 @@ class MainActivity : AppCompatActivity() {
                 val msg = Message.obtain()
                 msg.obj = data
                 myInfoHandler.sendMessage(msg)
-                //TODO 根据底部不同的导航，调用不同的列表接口
                 //请求商品信息
                 BackendClient.AppGoods.page(
                     AppMyGoodsPageReqVo(),

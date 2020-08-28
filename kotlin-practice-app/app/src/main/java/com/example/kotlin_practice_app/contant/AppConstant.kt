@@ -20,7 +20,7 @@ object AppConstant {
     /**
      * 修改对话框类型
      */
-    const val DIALOG_UPDATE = "dialog-update"
+    const val DIALOG_UPDATE = "dialog-ic_update"
 
     /**
      * 商品对话框标识

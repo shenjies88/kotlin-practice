@@ -44,9 +44,9 @@ object OkHttpUtil {
     }
 
     fun asyDelete(url: String, json: String, headers: Headers, callback: Callback) {
-        Log.i("OkHttpUtil-delete-url", "url: $url")
-        Log.i("OkHttpUtil-delete-body", "body: $json")
-        Log.i("OkHttpUtil-delete-headers", "headers: ${GsonUtil.toJson(headers)}")
+        Log.i("OkHttpUtil-ic_delete-url", "url: $url")
+        Log.i("OkHttpUtil-ic_delete-body", "body: $json")
+        Log.i("OkHttpUtil-ic_delete-headers", "headers: ${GsonUtil.toJson(headers)}")
         val request: Request = Request.Builder()
             .url(url)
             .delete(json.toRequestBody(JSON))

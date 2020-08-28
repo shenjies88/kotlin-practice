@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/it_goods"
+        android:enabled="true"
+        android:icon="@drawable/ic_goods"
+        android:title="商品" />
+    <item
+        android:id="@+id/it_star1"
+        android:enabled="true"
+        android:icon="@drawable/ic_star"
+        android:title="其他1" />
+    <item
+        android:id="@+id/it_star2"
+        android:enabled="true"
+        android:icon="@drawable/ic_star"
+        android:title="其他2" />
+    <item
+        android:id="@+id/it_star3"
+        android:enabled="true"
+        android:icon="@drawable/ic_star"
+        android:title="其他3" />
+</menu>
