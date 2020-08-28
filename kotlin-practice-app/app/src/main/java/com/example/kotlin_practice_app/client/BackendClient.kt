@@ -7,6 +7,7 @@ import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.utils.OkHttpUtil
 import com.example.kotlin_practice_app.vo.AppLoginReqVo
 import com.example.kotlin_practice_app.vo.AppMyGoodsPageReqVo
+import com.example.kotlin_practice_app.vo.AppMyGoodsUpdateReqVo
 import com.example.kotlin_practice_app.vo.AppRegisteredReqVo
 import okhttp3.Callback
 import okhttp3.Headers
@@ -86,6 +87,19 @@ object BackendClient {
             OkHttpUtil.asyDelete(
                 url,
                 GsonUtil.toJson(ids),
+                Headers.headersOf(APP_TOKEN, UserInfoManager.getUser()!!.token),
+                callback
+            )
+        }
+
+        /**
+         * 修改我的商品
+         */
+        fun update(requestBody: AppMyGoodsUpdateReqVo, callback: Callback) {
+            val url = "$BASE_URL${preUrl}/update"
+            OkHttpUtil.asyPost(
+                url,
+                GsonUtil.toJson(requestBody),
                 Headers.headersOf(APP_TOKEN, UserInfoManager.getUser()!!.token),
                 callback
             )

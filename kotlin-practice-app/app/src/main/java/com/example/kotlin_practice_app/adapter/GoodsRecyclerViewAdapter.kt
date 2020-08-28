@@ -12,6 +12,9 @@ import com.example.kotlin_practice_app.R
 import com.example.kotlin_practice_app.callback.BaseCallback
 import com.example.kotlin_practice_app.callback.MyGoodsPageCallback
 import com.example.kotlin_practice_app.client.BackendClient
+import com.example.kotlin_practice_app.contant.AppConstant
+import com.example.kotlin_practice_app.contant.AppConstant.GOODS_DIALOG_FRAGMENT
+import com.example.kotlin_practice_app.fragment.GoodsDialogFragment
 import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.AppMyGoodsPageReqVo
@@ -57,6 +60,12 @@ class GoodsRecyclerViewAdapter(
                 }
                 .show()
         }
+        holder.update.setOnClickListener {
+            arrayOf(item.id).let { idList ->
+                GoodsDialogFragment.newInstant(activity, toastHandler, AppConstant.UPDATE, idList)
+                    .show(activity.supportFragmentManager, GOODS_DIALOG_FRAGMENT)
+            }
+        }
     }
 
     override fun getItemCount(): Int = values.size
@@ -65,6 +74,7 @@ class GoodsRecyclerViewAdapter(
         val id: TextView = view.findViewById(R.id.item_number)
         val name: TextView = view.findViewById(R.id.content)
         val delete: ImageView = view.findViewById(R.id.iv_delete)
+        val update: ImageView = view.findViewById(R.id.iv_update)
     }
 
     /**

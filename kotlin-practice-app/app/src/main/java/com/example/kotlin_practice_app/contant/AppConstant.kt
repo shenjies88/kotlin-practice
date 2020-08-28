@@ -11,4 +11,16 @@ object AppConstant {
      * App Token Key
      */
     const val APP_TOKEN = "app-token"
+
+    /**
+     * 新增
+     */
+    const val INSERT = "insert"
+
+    /**
+     * 修改
+     */
+    const val UPDATE = "update"
+
+    const val GOODS_DIALOG_FRAGMENT = "goods-dialog-fragment"
 }
