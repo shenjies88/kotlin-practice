@@ -77,7 +77,18 @@ object BackendClient {
                 callback
             )
         }
+
+        /**
+         * 删除商品
+         */
+        fun delete(ids: Array<Int>, callback: Callback) {
+            val url = "$BASE_URL${preUrl}"
+            OkHttpUtil.asyDelete(
+                url,
+                GsonUtil.toJson(ids),
+                Headers.headersOf(APP_TOKEN, UserInfoManager.getUser()!!.token),
+                callback
+            )
+        }
     }
-
-
 }

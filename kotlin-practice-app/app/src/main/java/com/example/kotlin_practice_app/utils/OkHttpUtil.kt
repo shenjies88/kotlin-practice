@@ -42,4 +42,16 @@ object OkHttpUtil {
             .build()
         client.newCall(request).enqueue(callback)
     }
+
+    fun asyDelete(url: String, json: String, headers: Headers, callback: Callback) {
+        Log.i("OkHttpUtil-delete-url", "url: $url")
+        Log.i("OkHttpUtil-delete-body", "body: $json")
+        Log.i("OkHttpUtil-delete-headers", "headers: ${GsonUtil.toJson(headers)}")
+        val request: Request = Request.Builder()
+            .url(url)
+            .delete(json.toRequestBody(JSON))
+            .headers(headers)
+            .build()
+        client.newCall(request).enqueue(callback)
+    }
 }

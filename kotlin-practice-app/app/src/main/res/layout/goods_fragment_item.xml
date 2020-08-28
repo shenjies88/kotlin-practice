@@ -9,25 +9,47 @@
     app:cardCornerRadius="2dp"
     app:cardElevation="5dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/item_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="24dp"
+            android:text="id"
+            android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/colorOnBackground"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
+            android:layout_marginTop="4dp"
+            android:text="name"
+            android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/colorOnBackground"
-            android:textAppearance="?attr/textAppearanceListItem" />
-    </LinearLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.27"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

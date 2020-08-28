@@ -20,7 +20,7 @@ import java.io.IOException
  */
 class MyGoodsPageCallback(
     private val context: AppCompatActivity,
-    toastHandler: ToastHandler,
+    private val toastHandler: ToastHandler,
 ) : BaseCallback(toastHandler), Callback {
     override fun onFailure(call: Call, e: IOException) {
         Log.e("MyGoodsPage-onFailure", e.stackTraceToString())
@@ -39,7 +39,7 @@ class MyGoodsPageCallback(
                 return
             }
             val data = resultVo.data
-            val goodsFragment = GoodsFragment.newInstance(data?.list ?: arrayOf())
+            val goodsFragment = GoodsFragment.newInstance(data?.list ?: arrayOf(), toastHandler)
             val transaction = context.supportFragmentManager.beginTransaction()
             transaction.replace(R.id.root_fragment_layout, goodsFragment)
             transaction.commit()
