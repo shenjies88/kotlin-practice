@@ -41,7 +41,7 @@ class GoodsRecyclerViewAdapter(
         val item = values[position]
         holder.id.text = item.id.toString()
         holder.name.text = item.name
-        holder.more.setOnClickListener {
+        holder.delete.setOnClickListener {
             MaterialAlertDialogBuilder(activity)
                 .setTitle("确定要删除吗")
                 .setPositiveButton("确定") { dialog, which ->
@@ -64,7 +64,7 @@ class GoodsRecyclerViewAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val id: TextView = view.findViewById(R.id.item_number)
         val name: TextView = view.findViewById(R.id.content)
-        val more: ImageView = view.findViewById(R.id.iv_more)
+        val delete: ImageView = view.findViewById(R.id.iv_delete)
     }
 
     /**
