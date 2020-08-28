@@ -25,7 +25,7 @@ class AppGoodsController @Autowired constructor(private val goodsService: GoodsS
 
     @ApiOperation("增加商品")
     @PutMapping
-    fun insert(name: String?): HttpResultVo<Nothing> {
+    fun insert(@RequestBody name: String?): HttpResultVo<Nothing> {
         Assert.hasText(name, "商品名称不能为空")
         goodsService.insert(name)
         return successReturn()
