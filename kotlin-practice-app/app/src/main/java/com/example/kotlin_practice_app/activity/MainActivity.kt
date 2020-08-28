@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -19,7 +20,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.kotlin_practice_app.R
-import com.example.kotlin_practice_app.callback.MyInfoCallBack
+import com.example.kotlin_practice_app.callback.BaseCallback
+import com.example.kotlin_practice_app.callback.MyGoodsPageCallback
 import com.example.kotlin_practice_app.client.BackendClient
 import com.example.kotlin_practice_app.contant.AppConstant
 import com.example.kotlin_practice_app.contant.AppConstant.GOODS_DIALOG_FRAGMENT
@@ -27,10 +29,18 @@ import com.example.kotlin_practice_app.contant.AppConstant.INTERNET_PERMISSION_C
 import com.example.kotlin_practice_app.fragment.GoodsDialogFragment
 import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.manager.UserInfoManager
+import com.example.kotlin_practice_app.utils.GsonUtil
 import com.example.kotlin_practice_app.vo.AppLoginRespVo
+import com.example.kotlin_practice_app.vo.AppMyGoodsPageReqVo
+import com.example.kotlin_practice_app.vo.HttpResultVo
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.reflect.TypeToken
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import java.io.IOException
 import java.lang.ref.WeakReference
 
 
@@ -95,10 +105,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //TODO 根据Fragment的不同，弹出不同对话框
+        //TODO 根据底部导航不同，弹出不同对话框
         //弹出新增对话框
         floatingActionButton.setOnClickListener {
-            GoodsDialogFragment.newInstant(this, toastHandler, AppConstant.INSERT)
+            GoodsDialogFragment.newInstant(this, toastHandler, AppConstant.DIALOG_INSERT)
                 .show(supportFragmentManager, GOODS_DIALOG_FRAGMENT)
         }
     }
@@ -161,4 +171,46 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 我的用户信息回调
+     */
+    class MyInfoCallBack(
+        private val context: MainActivity,
+        private val toastHandler: ToastHandler,
+        private val myInfoHandler: MyInfoHandler
+    ) : BaseCallback(toastHandler), Callback {
+
+        override fun onFailure(call: Call, e: IOException) {
+            Log.e("MyInfoCallBack-onFailure", e.stackTraceToString())
+            sendToast("我的信息请求出现异常")
+        }
+
+        override fun onResponse(call: Call, response: Response) {
+            try {
+                val resultString = response.body!!.string()
+                Log.i("MyInfoCallBack-onResponse", resultString)
+                val resultVo = GsonUtil.fromJson<HttpResultVo<AppLoginRespVo>>(
+                    resultString,
+                    object : TypeToken<HttpResultVo<AppLoginRespVo>>() {}.type
+                )
+                if (!authentication(resultVo, context)) {
+                    return
+                }
+                val data = resultVo.data
+                UserInfoManager.saveUser(data)
+                val msg = Message.obtain()
+                msg.obj = data
+                myInfoHandler.sendMessage(msg)
+                //TODO 根据底部不同的导航，调用不同的列表接口
+                //请求商品信息
+                BackendClient.AppGoods.page(
+                    AppMyGoodsPageReqVo(),
+                    MyGoodsPageCallback(context, toastHandler)
+                )
+            } catch (e: Exception) {
+                Log.e("MyInfoCallBack-onResponse", e.stackTraceToString())
+                sendToast("我的信息请求出现异常")
+            }
+        }
+    }
 }

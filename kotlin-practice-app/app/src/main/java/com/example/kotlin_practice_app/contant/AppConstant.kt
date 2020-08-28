@@ -13,14 +13,17 @@ object AppConstant {
     const val APP_TOKEN = "app-token"
 
     /**
-     * 新增
+     * 新增对话框类型
      */
-    const val INSERT = "insert"
+    const val DIALOG_INSERT = "dialog-insert"
 
     /**
-     * 修改
+     * 修改对话框类型
      */
-    const val UPDATE = "update"
+    const val DIALOG_UPDATE = "dialog-update"
 
+    /**
+     * 商品对话框标识
+     */
     const val GOODS_DIALOG_FRAGMENT = "goods-dialog-fragment"
 }

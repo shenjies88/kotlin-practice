@@ -11,8 +11,8 @@ import com.example.kotlin_practice_app.R
 import com.example.kotlin_practice_app.callback.InsertGoodsCallback
 import com.example.kotlin_practice_app.callback.UpdateGoodsCallback
 import com.example.kotlin_practice_app.client.BackendClient
-import com.example.kotlin_practice_app.contant.AppConstant.INSERT
-import com.example.kotlin_practice_app.contant.AppConstant.UPDATE
+import com.example.kotlin_practice_app.contant.AppConstant.DIALOG_INSERT
+import com.example.kotlin_practice_app.contant.AppConstant.DIALOG_UPDATE
 import com.example.kotlin_practice_app.handler.ToastHandler
 import com.example.kotlin_practice_app.vo.AppMyGoodsUpdateReqVo
 import com.google.android.material.textfield.TextInputLayout
@@ -54,13 +54,13 @@ class GoodsDialogFragment(
                     return@setOnClickListener
                 }
                 when (type) {
-                    INSERT -> {
+                    DIALOG_INSERT -> {
                         BackendClient.AppGoods.insert(
                             editGoodsName.editText!!.text.toString(),
                             InsertGoodsCallback(context, toastHandler)
                         )
                     }
-                    UPDATE -> {
+                    DIALOG_UPDATE -> {
                         BackendClient.AppGoods.update(
                             AppMyGoodsUpdateReqVo(
                                 goodsId[0],

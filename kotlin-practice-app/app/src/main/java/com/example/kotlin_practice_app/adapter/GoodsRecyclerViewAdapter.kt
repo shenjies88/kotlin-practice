@@ -62,7 +62,12 @@ class GoodsRecyclerViewAdapter(
         }
         holder.update.setOnClickListener {
             arrayOf(item.id).let { idList ->
-                GoodsDialogFragment.newInstant(activity, toastHandler, AppConstant.UPDATE, idList)
+                GoodsDialogFragment.newInstant(
+                    activity,
+                    toastHandler,
+                    AppConstant.DIALOG_UPDATE,
+                    idList
+                )
                     .show(activity.supportFragmentManager, GOODS_DIALOG_FRAGMENT)
             }
         }
