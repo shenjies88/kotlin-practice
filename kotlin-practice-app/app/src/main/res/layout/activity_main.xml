@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -20,12 +21,14 @@
                 app:title="@string/app_name"
                 app:navigationIcon="@drawable/ic_menu_24dp"
                 style="@style/Widget.MaterialComponents.Toolbar.Surface" />
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/root_fragment_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
