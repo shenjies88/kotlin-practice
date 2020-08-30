@@ -21,6 +21,7 @@ class AdminUserService @Autowired constructor(
     fun login(param: AdminLoginReqVo): AdminLoginRespVo {
         //查询该账号是否存在，并且判断密码是否正确
         val user = adminUserMapper.getByAccount(param.account)
+        Assert.notNull(user,"账号密码不匹配")
         Assert.isTrue(param.pwd == user!!.pwd, "账号密码不匹配")
         val token = UUID.randomUUID().toString()
         val result = AdminLoginRespVo(user, token)
