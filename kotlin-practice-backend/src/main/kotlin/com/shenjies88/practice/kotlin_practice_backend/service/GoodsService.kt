@@ -23,7 +23,7 @@ class GoodsService @Autowired constructor(private val goodsMapper: GoodsMapper) 
 
     @Transactional(rollbackFor = [Exception::class])
     fun insert(name: String?) {
-        goodsMapper.insert(name, AppUserMemoryUtils.getAppUser().id)
+        goodsMapper.insert(name, AppUserMemoryUtils.get().id)
     }
 
     fun page(param: AppMyGoodsPageReqVo): PageVo<GoodsDO> {

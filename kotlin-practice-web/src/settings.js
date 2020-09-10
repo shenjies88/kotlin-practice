@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Vue Admin Template',
+  title: 'Kotlin Practice Web',
 
   /**
    * @type {boolean} true | false

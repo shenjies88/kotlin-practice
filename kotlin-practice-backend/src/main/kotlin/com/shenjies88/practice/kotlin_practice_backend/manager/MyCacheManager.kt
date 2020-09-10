@@ -10,7 +10,7 @@ import java.util.*
  * @since 2020/8/23-6:07 PM
  */
 @Component
-class MyCacheManager {
+object MyCacheManager {
 
     private val appTokenMap: HashMap<String, AppLoginRespVo> = HashMap()
     private val appLiveTokenMap: HashMap<Int?, String> = HashMap()
@@ -28,6 +28,8 @@ class MyCacheManager {
     fun setAdminToken(token: String, any: AdminLoginRespVo) = adminTokenMap.put(token, any)
 
     fun setAdminLiveToken(id: Int?, token: String) = adminLiveTokenMap.put(id, token)
+
+    fun removeAdminLiveToken(id: Int?) = adminLiveTokenMap.remove(id)
 
     fun getByAdminToken(token: String): AdminLoginRespVo? = adminTokenMap[token]
 

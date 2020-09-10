@@ -28,4 +28,11 @@ class AdminAuthenticationController @Autowired constructor(private val adminUser
     fun login(@RequestBody @Valid param: AdminLoginReqVo): HttpResultVo<AdminLoginRespVo> {
         return successReturn(adminUserService.login(param))
     }
+
+    @ApiOperation("退出登录")
+    @PostMapping("/logout")
+    fun logout() : HttpResultVo<Nothing> {
+        adminUserService.logout()
+        return successReturn();
+    }
 }

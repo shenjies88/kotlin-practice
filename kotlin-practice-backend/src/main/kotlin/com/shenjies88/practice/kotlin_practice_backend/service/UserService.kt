@@ -3,8 +3,9 @@ package com.shenjies88.practice.kotlin_practice_backend.service
 import com.shenjies88.practice.kotlin_practice_backend.entity.UserDO
 import com.shenjies88.practice.kotlin_practice_backend.manager.MyCacheManager
 import com.shenjies88.practice.kotlin_practice_backend.mapper.UserMapper
-import com.shenjies88.practice.kotlin_practice_backend.utils.AppUserMemoryUtils
+import com.shenjies88.practice.kotlin_practice_backend.utils.AdminUserMemoryUtils
 import com.shenjies88.practice.kotlin_practice_backend.vo.PageVo
+import com.shenjies88.practice.kotlin_practice_backend.vo.admin_user.resp.AdminLoginRespVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.user.UserCount
 import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AdminUserPageReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.user.req.AppLoginReqVo
@@ -47,8 +48,8 @@ class UserService @Autowired constructor(
         return result
     }
 
-    fun myInfo(): AppLoginRespVo {
-        return AppUserMemoryUtils.getAppUser()
+    fun myInfo(): AdminLoginRespVo {
+        return AdminUserMemoryUtils.get()
     }
 
     /**----------Admin方法----------**/

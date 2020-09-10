@@ -29,7 +29,7 @@ class AppInterceptor @Autowired constructor(private val myCacheManager: MyCacheM
         if (liveToken == null || liveToken != token) {
             throw MyAuthorizationException("令牌已失效，请重新登陆")
         }
-        AppUserMemoryUtils.setAppUser(user)
+        AppUserMemoryUtils.save(user)
         return true
     }
 }

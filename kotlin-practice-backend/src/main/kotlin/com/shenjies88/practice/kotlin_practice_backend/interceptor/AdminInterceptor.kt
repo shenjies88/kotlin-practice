@@ -31,7 +31,7 @@ class AdminInterceptor @Autowired constructor(private val myCacheManager: MyCach
         if (liveToken == null || liveToken != token) {
             throw MyAuthorizationException("令牌已失效，请重新登陆")
         }
-        AdminUserMemoryUtils.setAdminUser(user)
+        AdminUserMemoryUtils.save(user)
         return true
     }
 }

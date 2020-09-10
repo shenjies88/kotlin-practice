@@ -9,6 +9,6 @@ import com.shenjies88.practice.kotlin_practice_backend.vo.user.resp.AppLoginResp
 object AppUserMemoryUtils {
 
     private val userHold: ThreadLocal<AppLoginRespVo> = ThreadLocal()
-    fun setAppUser(user: AppLoginRespVo) = userHold.set(user)
-    fun getAppUser(): AppLoginRespVo = userHold.get()
+    fun save(user: AppLoginRespVo) = userHold.set(user)
+    fun get(): AppLoginRespVo = userHold.get()
 }

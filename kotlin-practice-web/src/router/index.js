@@ -36,7 +36,32 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/goods/manager',
+    children: [
+      {
+        path: '/goods/manager',
+        component: () => import('@/views/goods/GoodsManager'),
+        name: 'goodsManager',
+        meta: {title: '商品管理'}
+      }
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/manager',
+    children: [
+      {
+        path: 'manager',
+        component: () => import('@/views/user/UserManager'),
+        name: 'userManager',
+        meta: {title: '用户管理'}
+      }
+    ]
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),

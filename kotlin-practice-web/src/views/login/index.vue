@@ -83,7 +83,7 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: '/goods'
     }
   },
   watch: {

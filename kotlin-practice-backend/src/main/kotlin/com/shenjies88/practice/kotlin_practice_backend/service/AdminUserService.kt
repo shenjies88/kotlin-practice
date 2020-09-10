@@ -2,6 +2,7 @@ package com.shenjies88.practice.kotlin_practice_backend.service
 
 import com.shenjies88.practice.kotlin_practice_backend.manager.MyCacheManager
 import com.shenjies88.practice.kotlin_practice_backend.mapper.AdminUserMapper
+import com.shenjies88.practice.kotlin_practice_backend.utils.AdminUserMemoryUtils
 import com.shenjies88.practice.kotlin_practice_backend.vo.admin_user.req.AdminLoginReqVo
 import com.shenjies88.practice.kotlin_practice_backend.vo.admin_user.resp.AdminLoginRespVo
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,5 +29,13 @@ class AdminUserService @Autowired constructor(
         myCacheManager.setAdminToken(token, result)
         myCacheManager.setAdminLiveToken(user.id, token)
         return result
+    }
+
+    fun myInfo(): AdminLoginRespVo {
+        return AdminUserMemoryUtils.get()
+    }
+
+    fun logout() {
+        MyCacheManager.removeAdminLiveToken(AdminUserMemoryUtils.get().id)
     }
 }
