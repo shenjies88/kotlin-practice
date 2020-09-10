@@ -6,11 +6,9 @@ import com.shenjies88.practice.kotlin_practice_backend.vo.user.resp.AppLoginResp
  * @author shenjies88
  * @since 2020/8/23-5:31 PM
  */
-class AppUserMemoryUtils {
+object AppUserMemoryUtils {
 
-    companion object {
-        private val userHold: ThreadLocal<AppLoginRespVo> = ThreadLocal()
-        fun setAppUser(user: AppLoginRespVo) = userHold.set(user)
-        fun getAppUser(): AppLoginRespVo = userHold.get()
-    }
+    private val userHold: ThreadLocal<AppLoginRespVo> = ThreadLocal()
+    fun setAppUser(user: AppLoginRespVo) = userHold.set(user)
+    fun getAppUser(): AppLoginRespVo = userHold.get()
 }

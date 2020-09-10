@@ -6,11 +6,9 @@ import com.shenjies88.practice.kotlin_practice_backend.vo.admin_user.resp.AdminL
  * @author shenjies88
  * @since 2020/8/23-5:31 PM
  */
-class AdminUserMemoryUtils {
+object AdminUserMemoryUtils {
 
-    companion object {
-        private val userHold: ThreadLocal<AdminLoginRespVo> = ThreadLocal()
-        fun setAdminUser(user: AdminLoginRespVo) = userHold.set(user)
-        fun getAdminUser(): AdminLoginRespVo = userHold.get()
-    }
+    private val userHold: ThreadLocal<AdminLoginRespVo> = ThreadLocal()
+    fun setAdminUser(user: AdminLoginRespVo) = userHold.set(user)
+    fun getAdminUser(): AdminLoginRespVo = userHold.get()
 }
