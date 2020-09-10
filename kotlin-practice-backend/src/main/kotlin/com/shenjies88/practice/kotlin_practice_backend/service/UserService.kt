@@ -58,11 +58,7 @@ class UserService @Autowired constructor(
         BeanUtils.copyProperties(param, userCount)
         val total = userMapper.count(userCount)
         val result = PageVo<UserDO>()
-        if (total > 0) {
-            result.list = userMapper.adminPage(param)
-        } else {
-            result.list = emptyArray()
-        }
+        result.list = if (total > 0) userMapper.adminPage(param) else emptyArray()
         result.total = total
         return result
     }

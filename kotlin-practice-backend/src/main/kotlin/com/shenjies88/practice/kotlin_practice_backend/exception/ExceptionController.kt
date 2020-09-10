@@ -5,6 +5,7 @@ import com.shenjies88.practice.kotlin_practice_backend.constant.ApplicationConst
 import com.shenjies88.practice.kotlin_practice_backend.vo.HttpResultVo
 import org.springframework.http.HttpStatus
 import org.springframework.util.CollectionUtils
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -18,6 +19,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ExceptionController {
 
     companion object : MyLogger
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun methodArgumentNotValidExceptionHandler(e: MethodArgumentNotValidException): HttpResultVo<Nothing> {
+        val errorMessage = "无效的请求参数 ${e.bindingResult.fieldError!!.field} ${e.bindingResult.fieldError!!.defaultMessage}"
+        log().error("校验异常 {}", errorMessage)
+        return HttpResultVo.failure(errorMessage)
+    }
 
     @ExceptionHandler(MyAuthorizationException::class)
     fun authorizationExceptionHandler(e: MyAuthorizationException): HttpResultVo<Nothing> {

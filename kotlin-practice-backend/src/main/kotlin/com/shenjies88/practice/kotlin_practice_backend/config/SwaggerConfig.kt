@@ -23,7 +23,6 @@ class SwaggerConfig {
 
     @Bean
     fun appApiDoc(): Docket? {
-        // see https://springfox.github.io/springfox/docs/current/
         return Docket(DocumentationType.SWAGGER_2)
                 .groupName("1.APP端接口")
                 .apiInfo(appApiInfo())

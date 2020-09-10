@@ -31,11 +31,7 @@ class GoodsService @Autowired constructor(private val goodsMapper: GoodsMapper) 
         BeanUtils.copyProperties(param, goodsCount)
         val total = goodsMapper.count(goodsCount)
         val result = PageVo<GoodsDO>()
-        if (total > 0) {
-            result.list = goodsMapper.appPage(param)
-        } else {
-            result.list = emptyArray()
-        }
+        result.list = if (total > 0) goodsMapper.appPage(param) else emptyArray()
         result.total = total
         return result
     }
@@ -60,11 +56,7 @@ class GoodsService @Autowired constructor(private val goodsMapper: GoodsMapper) 
         BeanUtils.copyProperties(param, goodsCount)
         val total = goodsMapper.count(goodsCount)
         val result = PageVo<GoodsDO>()
-        if (total > 0) {
-            result.list = goodsMapper.adminPage(param)
-        } else {
-            result.list = emptyArray()
-        }
+        result.list = if (total > 0) goodsMapper.adminPage(param) else emptyArray()
         result.total = total
         return result
     }

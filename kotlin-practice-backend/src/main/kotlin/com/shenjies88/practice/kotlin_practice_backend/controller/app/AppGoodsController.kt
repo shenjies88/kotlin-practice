@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.util.Assert
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 /**
  * @author shenjies88
@@ -48,9 +49,7 @@ class AppGoodsController @Autowired constructor(private val goodsService: GoodsS
 
     @ApiOperation("修改我的商品")
     @PostMapping("/update")
-    fun update(@RequestBody param: AppMyGoodsUpdateReqVo): HttpResultVo<Nothing> {
-        Assert.notNull(param.id, "未选中商品")
-        Assert.hasText(param.name, "商品名称不能为空")
+    fun update(@RequestBody @Valid param: AppMyGoodsUpdateReqVo): HttpResultVo<Nothing> {
         goodsService.update(param)
         return successReturn()
     }
