@@ -45,7 +45,7 @@ export const constantRoutes = [
         path: '/goods/manager',
         component: () => import('@/views/goods/GoodsManager'),
         name: 'goodsManager',
-        meta: {title: '商品管理'}
+        meta: {title: '商品管理',icon: 'el-icon-goods'}
       }
     ]
   },
@@ -58,7 +58,7 @@ export const constantRoutes = [
         path: 'manager',
         component: () => import('@/views/user/UserManager'),
         name: 'userManager',
-        meta: {title: '用户管理'}
+        meta: {title: '用户管理',icon: 'el-icon-user'}
       }
     ]
   },
