@@ -42,7 +42,7 @@ export default {
     return {
       tableData: [],
       btDisabled: false,
-      userId: null
+      userId: null,
     }
   },
   mounted() {

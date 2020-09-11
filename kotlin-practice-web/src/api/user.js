@@ -21,3 +21,11 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function page(data) {
+  return request({
+    url: '/admin/user/page',
+    method: 'post',
+    data
+  })
+}

@@ -8,8 +8,6 @@ import io.swagger.annotations.ApiModelProperty
  */
 open class PageReqVo(
         @ApiModelProperty("分页数") open val size: Int = 10,
-        @ApiModelProperty("分页") open val num: Int = 1) {
-
-    @ApiModelProperty(hidden = true)
-    private val offset: Int = (num - 1) * size
-}
+        @ApiModelProperty("分页") open val num: Int = 1,
+        @ApiModelProperty(hidden = true)
+        open var offset: Int = 0)
