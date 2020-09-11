@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  * @since 2020/8/23-5:36 PM
  */
 @Configuration
-class WebConfig @Autowired constructor(
+class   WebConfig @Autowired constructor(
         private val appInterceptor: AppInterceptor,
         private val adminInterceptor: AdminInterceptor) : WebMvcConfigurer {
 
