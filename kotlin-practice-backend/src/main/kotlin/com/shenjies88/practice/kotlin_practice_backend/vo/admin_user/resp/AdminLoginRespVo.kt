@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty
  * @since 2020/8/23-10:49 PM
  */
 @ApiModel("登陆返回")
-class AdminLoginRespVo(private val user: AdminUserDO, private val tk: String) {
+class AdminLoginRespVo(user: AdminUserDO, tk: String) {
 
     @ApiModelProperty("主键")
     val id: Int? = user.id
