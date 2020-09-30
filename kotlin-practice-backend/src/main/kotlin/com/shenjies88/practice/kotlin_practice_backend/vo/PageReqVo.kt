@@ -10,4 +10,5 @@ open class PageReqVo(
         @ApiModelProperty("分页数") open val size: Int = 10,
         @ApiModelProperty("分页") open val num: Int = 1,
         @ApiModelProperty(hidden = true)
-        open var offset: Int = 0)
+        open var offset: Int = 0) {
+}

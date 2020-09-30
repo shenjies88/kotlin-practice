@@ -56,6 +56,7 @@ class GoodsService @Autowired constructor(private val goodsMapper: GoodsMapper) 
         BeanUtils.copyProperties(param, goodsCount)
         val total = goodsMapper.count(goodsCount)
         val result = PageVo<GoodsDO>()
+        param.offset = (param.num - 1) * param.size
         result.list = if (total > 0) goodsMapper.adminPage(param) else emptyArray()
         result.total = total
         return result
