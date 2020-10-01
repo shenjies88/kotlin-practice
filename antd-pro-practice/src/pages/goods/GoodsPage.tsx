@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {Card, Table, Row, Col} from 'antd';
-import {page, AdminGoodsPageReqVo, GoodsDO} from '@/services/goods';
+import React, {useEffect, useState} from 'react';
+import {Card, Col, Row, Table} from 'antd';
+import {AdminGoodsPageReqVo, GoodsDO, page} from '@/services/goods';
 import {ColumnsType} from "antd/es/table";
 
 const columns: ColumnsType<GoodsDO> = [
@@ -48,7 +48,7 @@ const GoodsPage: React.FC = () => {
     <Card>
       <Row>
         <Col span={24}>
-
+          查询
         </Col>
       </Row>
       <Row>
