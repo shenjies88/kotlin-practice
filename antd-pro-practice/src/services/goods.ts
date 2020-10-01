@@ -1,10 +1,13 @@
 import request from '@/utils/request';
-import {PageReqVo,PageVo} from "@/services/HttpCommonVo";
+import {PageReqVo, PageVo} from "@/services/HttpCommonVo";
 
 export class AdminGoodsPageReqVo extends PageReqVo {
   constructor(userId?: number) {
     super();
+    this.userId = userId;
   }
+
+  userId: number | undefined;
 }
 
 export interface GoodsDO {
