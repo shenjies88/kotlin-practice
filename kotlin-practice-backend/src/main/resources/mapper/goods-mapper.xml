@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shenjies88.practice.kotlin_practice_backend.mapper.GoodsMapper">
+
+    <resultMap id="baseResultMap" type="com.shenjies88.practice.kotlin_practice_backend.entity.GoodsDO">
+        <id property="id" jdbcType="INTEGER" column="id"/>
+        <result property="userId" jdbcType="INTEGER" column="user_id"/>
+        <result property="name" jdbcType="VARCHAR" column="name"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id,user_id,name
+    </sql>
+
+    <insert id="insert">
+        insert into goods (user_id,name)
+        values (#{userId},#{name})
+    </insert>
+
+    <sql id="pageSql">
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" resultType="Int">
+        select count (1)
+        from goods
+        <include refid="pageSql"/>
+    </select>
+
+    <select id="appPage" resultMap="baseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from goods
+        <include refid="pageSql"/>
+        order by id desc
+        limit #{offset} , #{size}
+    </select>
+
+    <delete id="delete">
+        delete from goods
+        where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="baseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from goods
+        where id = #{id}
+    </select>
+
+    <update id="updateSelect">
+        update goods
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="adminPage" resultMap="baseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from goods
+        <include refid="pageSql"/>
+        order by id desc
+        limit #{offset} , #{size}
+    </select>
+</mapper>

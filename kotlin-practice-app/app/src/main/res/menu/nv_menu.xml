@@ -1,0 +1,12 @@
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="查询"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/help"
+        android:icon="@drawable/ic_help"
+        android:title="帮助" />
+</menu>

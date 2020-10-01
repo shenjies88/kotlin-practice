@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shenjies88.practice.kotlin_practice_backend.mapper.UserMapper">
+
+    <resultMap id="baseResultMap" type="com.shenjies88.practice.kotlin_practice_backend.entity.UserDO">
+        <id property="id" jdbcType="INTEGER" column="id"/>
+        <result property="account" jdbcType="VARCHAR" column="account"/>
+        <result property="pwd" jdbcType="VARCHAR" column="pwd"/>
+        <result property="nickname" jdbcType="VARCHAR" column="nickname"/>
+        <result property="icon" jdbcType="VARCHAR" column="icon"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id,account,nickname,icon
+    </sql>
+
+    <sql id="pwdBaseColumn">
+        id,account,pwd,nickname,icon
+    </sql>
+
+    <select id="getByAccount" resultMap="baseResultMap">
+        select
+        <include refid="pwdBaseColumn"/>
+        from user
+        where account = #{account}
+    </select>
+
+    <insert id="insert">
+        insert into user (account,pwd,nickname)
+        values (#{body.account},#{body.pwd},#{body.nickname})
+    </insert>
+
+    <sql id="pageSql">
+
+    </sql>
+
+    <select id="count" resultType="Int">
+        select count (1)
+        from user
+        <include refid="pageSql"/>
+    </select>
+
+    <select id="adminPage" resultMap="baseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from user
+        <include refid="pageSql"/>
+        order by id desc
+        limit #{offset} , #{size}
+    </select>
+</mapper>

@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: kotlin-practice-backend-application
+  datasource:
+    url: jdbc:h2:mem:kotlin_db;DATABASE_TO_UPPER=false;MODE=MYSQL;
+    platform: h2
+    schema: classpath:db/schema.sql
+    data: classpath:db/data.sql
+    username: root
+    password: password
+  h2:
+    console:
+      enabled: true
+
+server:
+  port: 10086
+
+logging:
+  level:
+    root: info
+    com.shenjies88.practice.kotlin_practice_backend: debug
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*-mapper.xml
