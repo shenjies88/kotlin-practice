@@ -1,5 +1,6 @@
 import request from '@/utils/request';
 import {PageReqVo, PageVo} from "@/services/HttpCommonVo";
+import {LoginResultType} from "@/services/login";
 
 export class AdminUserPageReqVo extends PageReqVo {
 }
@@ -14,7 +15,7 @@ export async function query(): Promise<any> {
   return request('/api/users');
 }
 
-export async function queryCurrent(): Promise<HLoginResultType> {
+export async function queryCurrent(): Promise<LoginResultType> {
   return request('/api/admin/user/my-info', {
     method: 'POST'
   });

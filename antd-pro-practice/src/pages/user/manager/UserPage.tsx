@@ -22,8 +22,7 @@ const columns: ColumnsType<UserDO> = [
 ];
 
 const UserPage: React.FC = () => {
-  const [dataSource, setDataSource] = useState(new Array<UserDO>());
-  const [dataTotal, setDataTotal] = useState(0);
+  const [dataSource, setDataSource] = useState({list: new Array<UserDO>(), total: 0});
   const [pageParam, setPageParam] = useState(new AdminUserPageReqVo());
 
   useEffect(() => {
@@ -39,8 +38,7 @@ const UserPage: React.FC = () => {
 
   function queryList() {
     page(pageParam).then(res => {
-      setDataSource(res.list);
-      setDataTotal(res.total);
+      setDataSource(res);
     });
   }
 
@@ -53,8 +51,8 @@ const UserPage: React.FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <Table rowKey="id" dataSource={dataSource} columns={columns}
-                 pagination={{onChange: handPageChange, total: dataTotal, showSizeChanger: true}}/>
+          <Table rowKey="id" dataSource={dataSource.list} columns={columns}
+                 pagination={{onChange: handPageChange, total: dataSource.total, showSizeChanger: true}}/>
         </Col>
       </Row>
     </Card>

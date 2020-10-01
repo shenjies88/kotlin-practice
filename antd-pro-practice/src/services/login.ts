@@ -1,5 +1,4 @@
 import request from '@/utils/request';
-import {HttpCommonVo} from '@/services/HttpCommonVo';
 
 export interface LoginParamsType {
   account: string;
@@ -12,7 +11,7 @@ export interface LoginResultType {
   token: string;
 }
 
-export async function fakeAccountLogin(params: LoginParamsType) : Promise<HttpCommonVo<LoginResultType>> {
+export async function fakeAccountLogin(params: LoginParamsType): Promise<LoginResultType> {
   return request('/api/admin/authentication/login', {
     method: 'POST',
     data: params,
